@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>에듀케레 영수학원 | 분석지 2강</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1a2744;--gold:#c8a84b;--gold-bg:#fdf8ee;--white:#fff;--gray:#e0e0e0;--text:#1a1a2e;--muted:#555570;--accent:#2e75b6;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans KR',sans-serif;background:#0e1629;color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+.site-header{background:var(--navy);border-bottom:2px solid var(--gold);padding:14px 24px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100;}
+.brand{font-family:'Playfair Display',serif;color:var(--gold);font-size:1.25rem;}
+.subtitle{color:rgba(200,168,75,0.5);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;}
+.layout{display:flex;flex:1;}
+.sidebar{width:230px;min-width:230px;background:#111c35;border-right:1px solid rgba(200,168,75,.2);padding:20px 0;position:sticky;top:57px;height:calc(100vh - 57px);overflow-y:auto;}
+.sidebar-title{color:var(--gold);font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;padding:0 18px 12px;border-bottom:1px solid rgba(200,168,75,.15);margin-bottom:10px;}
+.passage-btn{display:block;width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:12px 18px;color:rgba(255,255,255,.6);font-family:'Noto Sans KR',sans-serif;font-size:.8rem;line-height:1.4;transition:all .2s;border-left:3px solid transparent;}
+.passage-btn:hover{background:rgba(200,168,75,.08);color:rgba(255,255,255,.9);}
+.passage-btn.active{background:rgba(200,168,75,.12);color:var(--gold);border-left-color:var(--gold);}
+.p-code{font-size:.65rem;letter-spacing:.08em;opacity:.7;display:block;margin-bottom:3px;}
+.main{flex:1;overflow-y:auto;background:#f7f6f2;}
+.passage-panel{display:none;}
+.passage-panel.active{display:block;}
+.passage-header{background:var(--navy);padding:28px 36px 24px;border-bottom:3px solid var(--gold);}
+.p-label{font-size:.65rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;}
+.passage-header h1{font-family:'Playfair Display',serif;color:#fff;font-size:1.6rem;}
+.tabs-bar{background:var(--navy);display:flex;gap:2px;padding:0 36px;border-bottom:2px solid var(--gold);flex-wrap:wrap;}
+.tab-btn{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.5);font-family:'Noto Sans KR',sans-serif;font-size:.78rem;padding:11px 16px;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;}
+.tab-btn:hover{color:rgba(255,255,255,.85);}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
+.tab-content{display:none;padding:30px 36px 48px;}
+.tab-content.active{display:block;}
+.full-text-box{background:#fff;border:2px solid var(--navy);border-left:5px solid var(--gold);border-radius:4px;padding:22px 26px;margin-bottom:28px;font-family:'EB Garamond',serif;font-size:1.05rem;line-height:1.85;color:#1a1a2e;}
+.sec-title{font-family:'Playfair Display',serif;color:var(--navy);font-size:1.1rem;font-weight:700;margin:28px 0 14px;padding-bottom:6px;border-bottom:2px solid var(--gold);display:flex;align-items:center;gap:8px;}
+.sec-title::before{content:'';display:inline-block;width:8px;height:8px;background:var(--gold);border-radius:50%;}
+.sentence-block{margin-bottom:22px;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07);}
+.sentence-num{background:var(--navy);color:var(--gold);font-family:'Playfair Display',serif;font-size:.85rem;padding:6px 14px;display:inline-block;}
+.sentence-en{font-family:'EB Garamond',serif;font-size:1.05rem;line-height:1.7;padding:14px 18px 10px;color:#1a1a2e;border-left:4px solid var(--accent);background:#f8faff;}
+.sentence-kr{padding:8px 18px 12px;font-size:.88rem;color:var(--muted);line-height:1.6;border-left:4px solid var(--gray);}
+.grammar-items{padding:10px 18px 14px;background:#fffdf5;border-top:1px solid var(--gray);}
+.grammar-item{margin-bottom:8px;font-size:.82rem;line-height:1.55;}
+.g-name{display:inline-block;background:var(--navy);color:var(--gold);font-size:.7rem;padding:2px 7px;border-radius:3px;margin-right:6px;font-weight:700;}
+.g-ex{color:var(--accent);font-family:'EB Garamond',serif;font-size:.9rem;}
+.g-point{color:#b45309;font-size:.8rem;margin-left:4px;}
+.vocab-grid{display:flex;flex-direction:column;gap:6px;}
+.vocab-item{background:#fff;border-radius:5px;padding:10px 16px;display:grid;grid-template-columns:180px 1fr 80px 1fr;gap:10px;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.05);font-size:.85rem;}
+.vocab-item:hover{background:var(--gold-bg);}
+.v-word{font-family:'EB Garamond',serif;font-size:1rem;font-weight:600;color:var(--navy);}
+.v-pos{font-size:.75rem;color:var(--accent);font-style:italic;}
+.v-deriv{color:var(--muted);font-size:.8rem;}
+.translation-box{background:#fff;border-radius:6px;padding:22px 26px;line-height:2;font-size:.95rem;color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.06);border-left:4px solid var(--gold);}
+.topic-card{background:#fff;border-radius:6px;padding:18px 22px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.topic-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.topic-text{font-size:.95rem;line-height:1.7;}
+.structure-steps{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
+.step{display:flex;align-items:flex-start;gap:10px;font-size:.88rem;}
+.step-badge{background:var(--navy);color:var(--gold);font-size:.65rem;padding:2px 8px;border-radius:3px;white-space:nowrap;margin-top:2px;}
+.quiz-block{background:#fff;border-radius:8px;padding:22px 24px;margin-bottom:20px;box-shadow:0 1px 5px rgba(0,0,0,.07);}
+.quiz-q{font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:6px;line-height:1.6;}
+.quiz-type-badge{display:inline-block;background:var(--navy);color:var(--gold);font-size:.65rem;padding:2px 8px;border-radius:3px;margin-bottom:10px;letter-spacing:.06em;}
+.quiz-passage{font-family:'EB Garamond',serif;font-size:.97rem;line-height:1.8;background:#f8faff;border-left:3px solid var(--accent);padding:12px 16px;margin-bottom:12px;border-radius:0 4px 4px 0;}
+.quiz-passage u{text-decoration:underline;text-underline-offset:3px;}
+.blank{border-bottom:2px solid var(--navy);display:inline-block;min-width:90px;}
+.order-box{background:#f8faff;border:1px solid var(--gray);border-radius:5px;padding:14px 16px;margin-bottom:12px;font-family:'EB Garamond',serif;font-size:.93rem;line-height:1.8;}
+.order-box b{color:var(--navy);}
+.quiz-options{display:flex;flex-direction:column;gap:7px;}
+.quiz-opt{display:flex;align-items:flex-start;gap:10px;padding:9px 14px;border:1.5px solid var(--gray);border-radius:5px;cursor:pointer;font-size:.85rem;line-height:1.5;transition:all .18s;background:#fff;}
+.quiz-opt:hover{border-color:var(--accent);background:#f0f5ff;}
+.quiz-opt.correct{background:#e6f4ea;border-color:#34a853;color:#1e7e34;}
+.quiz-opt.wrong{background:#fce8e6;border-color:#ea4335;color:#c0392b;}
+.opt-num{min-width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--gray);font-size:.75rem;font-weight:700;flex-shrink:0;}
+.quiz-opt.correct .opt-num{background:#34a853;color:#fff;}
+.quiz-opt.wrong .opt-num{background:#ea4335;color:#fff;}
+.quiz-feedback{display:none;margin-top:10px;padding:8px 12px;background:#fffdf0;border-left:3px solid var(--gold);font-size:.82rem;color:#5a4000;border-radius:0 4px 4px 0;}
+.quiz-feedback.show{display:block;}
+.reset-btn{margin-top:10px;background:none;border:1.5px solid var(--navy);color:var(--navy);padding:5px 14px;border-radius:4px;cursor:pointer;font-size:.78rem;font-family:'Noto Sans KR',sans-serif;transition:all .2s;}
+.reset-btn:hover{background:var(--navy);color:#fff;}
+::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-thumb{background:rgba(200,168,75,.3);border-radius:3px;}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div><div class="brand">에듀케레 영수학원</div><div class="subtitle">English Reading Analysis · 2강</div></div>
+</header>
+<div class="layout">
+<nav class="sidebar">
+  <div class="sidebar-title">지문 선택</div>
+  <button class="passage-btn active" onclick="showPassage('p11g',this)"><span class="p-code">11-G</span>집단 지식과 사회적 학습</button>
+  <button class="passage-btn" onclick="showPassage('p111',this)"><span class="p-code">11-1</span>메타포로 가르치는 리서치</button>
+  <button class="passage-btn" onclick="showPassage('p112',this)"><span class="p-code">11-2</span>시장 논리와 사회적 가치</button>
+  <button class="passage-btn" onclick="showPassage('p113',this)"><span class="p-code">11-3</span>인종의 사회적 구성</button>
+  <button class="passage-btn" onclick="showPassage('p114',this)"><span class="p-code">11-4</span>비만과 음식 섭취량</button>
+</nav>
+<main class="main">
+<!-- ===== 11-G ===== -->
+<div class="passage-panel active" id="p11g">
+<div class="passage-header"><div class="p-label">Passage 11-G</div><h1>집단 지식과 사회적 학습</h1></div>
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="showTab('p11g','full',this)">① 전문</button>
+  <button class="tab-btn" onclick="showTab('p11g','sent',this)">② 문장분석</button>
+  <button class="tab-btn" onclick="showTab('p11g','vocab',this)">③ 핵심단어</button>
+  <button class="tab-btn" onclick="showTab('p11g','trans',this)">④ 전문해석</button>
+  <button class="tab-btn" onclick="showTab('p11g','topic',this)">⑤ 주제·요지</button>
+  <button class="tab-btn" onclick="showTab('p11g','quiz',this)">⑥ 변형문제</button>
+</div>
+
+<div class="tab-content active" id="p11g-full">
+<div class="full-text-box">We are exceptionally smart, and this helps us adapt to a wide range of environments. But we are not nearly smart enough as individuals to solve the adaptive problems that confronted modern humans as they spread across the globe. The package of tools, foraging techniques, ecological knowledge, and social arrangements used by any group of foragers being far too complex for any individual to create. We are able to learn all the things we need to know in each of the many different environments in which we live only because we acquire information from others. We are much better at learning from others than other species are, and we are motivated to learn from others even when we do not understand why our models are doing what they are doing. This psychology allows human populations to accumulate pools of adaptive information that greatly exceed the inventive capacities of individuals.</div>
+</div>
+
+<div class="tab-content" id="p11g-sent">
+<div class="sec-title">문장분석</div>
+
+<div class="sentence-block">
+<div class="sentence-num">① 문장</div>
+<div class="sentence-en">We are exceptionally smart, and this helps us adapt to a wide range of environments.</div>
+<div class="sentence-kr">/ We are exceptionally smart, / and this helps us / adapt to / a wide range of environments. /<br>우리는 예외적으로 똑똑하며, / 이것은 우리가 / 적응하도록 돕는다 / 매우 다양한 환경들에.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">help+O+동사원형</span> <span class="g-ex">helps us adapt</span> <span class="g-point">→ help는 목적격보어로 동사원형(또는 to부정사) 모두 가능.</span></div>
+<div class="grammar-item"><span class="g-name">a wide range of</span> <span class="g-ex">a wide range of environments</span> <span class="g-point">→ '다양한 ~'. 뒤에 복수명사. a variety of와 유사한 표현.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">② 문장</div>
+<div class="sentence-en">But we are not nearly smart enough as individuals to solve the adaptive problems that confronted modern humans as they spread across the globe.</div>
+<div class="sentence-kr">/ But we are not nearly smart enough / as individuals / to solve the adaptive problems / that confronted modern humans / as they spread across the globe. /<br>하지만 우리는 개인으로서 / 충분히 영리하지 않다 / 적응 문제들을 해결하기에 / 현대 인류가 직면했던 / 그들이 전 세계로 퍼져나갈 때.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">enough to부정사</span> <span class="g-ex">smart enough to solve</span> <span class="g-point">→ 형용사+enough+to부정사: '~할 만큼 충분히 …한'. not이 붙으면 부정.</span></div>
+<div class="grammar-item"><span class="g-name">관계대명사 that(주격)</span> <span class="g-ex">the adaptive problems that confronted modern humans</span> <span class="g-point">→ 주격 관계대명사. 선행사 problems 수식, 동사 confronted.</span></div>
+<div class="grammar-item"><span class="g-name">접속사 as(시간)</span> <span class="g-ex">as they spread across the globe</span> <span class="g-point">→ '~할 때/~하면서'. 동시 진행 강조.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">③ 문장</div>
+<div class="sentence-en">The package of tools, foraging techniques, ecological knowledge, and social arrangements used by any group of foragers being far too complex for any individual to create.</div>
+<div class="sentence-kr">/ The package of tools, / foraging techniques, / ecological knowledge, / and social arrangements / used by any group of foragers / being far too complex / for any individual to create. /<br>도구들, / 채집 기술들, / 생태 지식, / 그리고 사회 구조의 집합은 / 어떤 수렵·채집 집단에서든 사용되는 / 너무 복잡하기 때문이다 / 어떤 개인이 만들기에는.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">어법오류: being → is</span> <span class="g-ex">The package ... being far too complex</span> <span class="g-point">→ ② 밑줄 오류. 주어 The package의 서술어 동사가 필요. being은 비문, is가 올바름.</span></div>
+<div class="grammar-item"><span class="g-name">too ~ to부정사</span> <span class="g-ex">too complex for any individual to create</span> <span class="g-point">→ 'too+형용사+for+의미상 주어+to부정사': 너무 ~해서 …할 수 없다.</span></div>
+<div class="grammar-item"><span class="g-name">과거분사 후치수식</span> <span class="g-ex">social arrangements used by any group</span> <span class="g-point">→ 과거분사구가 앞 명사를 수동 의미로 수식.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">④ 문장</div>
+<div class="sentence-en">We are able to learn all the things we need to know in each of the many different environments in which we live only because we acquire information from others.</div>
+<div class="sentence-kr">/ We are able to learn / all the things / we need to know / in each of the many different environments / in which we live / only because we acquire information from others. /<br>우리는 배울 수 있다 / 모든 것들을 / 우리가 알아야 할 / 다양한 환경들 각각에서 / 우리가 살아가는 / 오직 다른 사람들로부터 정보를 습득하기 때문에.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">전치사+관계대명사</span> <span class="g-ex">environments in which we live</span> <span class="g-point">→ = environments where we live. 격식체 표현. ③ 밑줄 정답.</span></div>
+<div class="grammar-item"><span class="g-name">only because</span> <span class="g-ex">only because we acquire information from others</span> <span class="g-point">→ '오직 ~이기 때문에'. 이유를 강조하는 표현.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑤ 문장</div>
+<div class="sentence-en">We are much better at learning from others than other species are, and we are motivated to learn from others even when we do not understand why our models are doing what they are doing.</div>
+<div class="sentence-kr">/ We are much better / at learning from others / than other species are, / and we are motivated / to learn from others / even when we do not understand / why our models are doing / what they are doing. /<br>우리는 훨씬 더 뛰어나다 / 다른 사람들로부터 배우는 것에 / 다른 종들보다, / 그리고 우리는 동기부여 된다 / 다른 사람들에게서 배우도록 / 우리가 이해하지 못할 때조차 / 왜 우리의 모델이 하고 있는지를 / 그들이 하고 있는 것을.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">비교급 강조 much</span> <span class="g-ex">much better at learning</span> <span class="g-point">→ much/far/even/still+비교급으로 강조. very는 비교급 강조 불가.</span></div>
+<div class="grammar-item"><span class="g-name">be motivated to</span> <span class="g-ex">are motivated to learn</span> <span class="g-point">→ ④ 밑줄 정답. 수동태+to부정사: '~하도록 동기부여 되다'.</span></div>
+<div class="grammar-item"><span class="g-name">관계대명사 what</span> <span class="g-ex">what they are doing</span> <span class="g-point">→ 선행사 포함 관계대명사. = the thing that they are doing.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑥ 문장</div>
+<div class="sentence-en">This psychology allows human populations to accumulate pools of adaptive information that greatly exceed the inventive capacities of individuals.</div>
+<div class="sentence-kr">/ This psychology allows / human populations / to accumulate / pools of adaptive information / that greatly exceed / the inventive capacities of individuals. /<br>이러한 심리는 허용한다 / 인간 집단이 / 축적하도록 / 적응적 정보의 저장소를 / 크게 능가하는 / 개인의 창의적 능력을.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">allow+O+to부정사</span> <span class="g-ex">allows human populations to accumulate</span> <span class="g-point">→ 5형식. allow/enable/permit + 목적어 + to부정사.</span></div>
+<div class="grammar-item"><span class="g-name">관계대명사 that(주격)</span> <span class="g-ex">pools of adaptive information that greatly exceed</span> <span class="g-point">→ 선행사 pools(복수), 동사 exceed.</span></div>
+</div>
+</div>
+</div><!-- /sent -->
+
+<div class="tab-content" id="p11g-vocab">
+<div class="sec-title">핵심단어 및 표현</div>
+<div class="vocab-grid">
+<div class="vocab-item"><span class="v-word">exceptionally</span><span>예외적으로, 특별히</span><span class="v-pos">adv.</span><span class="v-deriv">exception (n.), exceptional (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">adaptive</span><span>적응적인</span><span class="v-pos">adj.</span><span class="v-deriv">adapt (v.), adaptation (n.)</span></div>
+<div class="vocab-item"><span class="v-word">confront</span><span>직면하다</span><span class="v-pos">v.</span><span class="v-deriv">confrontation (n.)</span></div>
+<div class="vocab-item"><span class="v-word">foraging</span><span>채집, 먹이 찾기</span><span class="v-pos">n./adj.</span><span class="v-deriv">forage (v.), forager (n.)</span></div>
+<div class="vocab-item"><span class="v-word">ecological</span><span>생태적인</span><span class="v-pos">adj.</span><span class="v-deriv">ecology (n.), ecologist (n.)</span></div>
+<div class="vocab-item"><span class="v-word">arrangement</span><span>구조, 배열, 준비</span><span class="v-pos">n.</span><span class="v-deriv">arrange (v.)</span></div>
+<div class="vocab-item"><span class="v-word">acquire</span><span>습득하다, 얻다</span><span class="v-pos">v.</span><span class="v-deriv">acquisition (n.)</span></div>
+<div class="vocab-item"><span class="v-word">motivated</span><span>동기부여 된</span><span class="v-pos">adj.</span><span class="v-deriv">motivate (v.), motivation (n.)</span></div>
+<div class="vocab-item"><span class="v-word">accumulate</span><span>축적하다</span><span class="v-pos">v.</span><span class="v-deriv">accumulation (n.)</span></div>
+<div class="vocab-item"><span class="v-word">exceed</span><span>능가하다, 초과하다</span><span class="v-pos">v.</span><span class="v-deriv">excess (n.), excessive (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">inventive</span><span>창의적인</span><span class="v-pos">adj.</span><span class="v-deriv">invent (v.), invention (n.)</span></div>
+</div>
+</div>
+
+<div class="tab-content" id="p11g-trans">
+<div class="sec-title">전문해석</div>
+<div class="translation-box">우리는 예외적으로 똑똑하고, 이것은 우리가 매우 다양한 환경에 적응하도록 돕는다. 하지만 우리는 현대 인류가 전 세계로 퍼져나갈 때 직면했던 적응 문제들을 해결하기에 개인으로서는 결코 충분히 영리하지 않다. 어떤 수렵·채집 집단에서든 사용되는 도구들, 채집 기술들, 생태 지식, 사회 구조의 집합은 어떤 개인이 만들기에는 너무 복잡하다. 우리는 각기 다른 수많은 환경들에서 알아야 할 모든 것들을 배울 수 있는데, 이는 오직 우리가 다른 사람들로부터 정보를 습득하기 때문이다. 우리는 다른 종들보다 다른 사람들에게서 훨씬 더 잘 배우며, 우리의 모델이 하는 행동의 이유를 이해하지 못할 때조차 다른 사람들에게서 배우도록 동기부여 된다. 이러한 심리는 인간 집단이 개인의 창의적 능력을 크게 능가하는 적응적 정보의 저장소를 축적하도록 한다.</div>
+</div>
+
+<div class="tab-content" id="p11g-topic">
+<div class="sec-title">주제 · 요지 · 구조</div>
+<div class="topic-card"><div class="topic-label">주제 (Topic)</div><div class="topic-text">타인으로부터의 학습을 통한 인간의 집단적 지식 축적</div></div>
+<div class="topic-card"><div class="topic-label">요지 (Main Point)</div><div class="topic-text">인간은 개인으로서는 적응 문제를 해결하기에 충분하지 않으나, 타인에게서 정보를 습득하고 학습하는 탁월한 능력 덕분에 개인의 능력을 초월하는 집단적 지식을 축적할 수 있다.</div></div>
+<div class="topic-card"><div class="topic-label">구조 흐름 (Structure)</div>
+<div class="structure-steps">
+<div class="step"><span class="step-badge">도입</span><span>인간의 뛰어난 지능, 그러나 개인의 한계 제시</span></div>
+<div class="step"><span class="step-badge">전개①</span><span>수렵·채집 집단의 지식 체계는 개인이 만들기에 너무 복잡함</span></div>
+<div class="step"><span class="step-badge">전개②</span><span>타인으로부터의 정보 습득이 인간 학습의 핵심</span></div>
+<div class="step"><span class="step-badge">결론</span><span>사회적 학습 심리가 개인 능력을 초월하는 집단 지식 축적을 가능하게 함</span></div>
+</div>
+</div>
+</div>
+
+<div class="tab-content" id="p11g-quiz">
+<div class="sec-title">변형문제</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">1번 · 주제 추론</div>
+<div class="quiz-q">1. 다음 글의 주제로 가장 적절한 것은?</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p11g',1,this,false)"><span class="opt-num">①</span>인간 지능의 생물학적 진화 과정</div>
+<div class="quiz-opt" onclick="checkQ('p11g',1,this,false)"><span class="opt-num">②</span>수렵·채집 사회의 생존 전략</div>
+<div class="quiz-opt" onclick="checkQ('p11g',1,this,true)"><span class="opt-num">③</span>타인 학습을 통한 인간의 집단적 지식 축적</div>
+<div class="quiz-opt" onclick="checkQ('p11g',1,this,false)"><span class="opt-num">④</span>개인의 창의력이 문명 발전에 미치는 영향</div>
+<div class="quiz-opt" onclick="checkQ('p11g',1,this,false)"><span class="opt-num">⑤</span>환경 적응을 위한 사회 구조의 중요성</div>
+</div>
+<div class="quiz-feedback" id="p11g-q1-fb">✅ 정답 ③ | 개인의 한계를 인정하면서도, 타인으로부터의 사회적 학습을 통해 집단이 방대한 적응적 지식을 축적한다는 것이 핵심이다.</div>
+<button class="reset-btn" onclick="resetQ('p11g',1,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">2번 · 빈칸 추론</div>
+<div class="quiz-q">2. 다음 빈칸에 들어갈 말로 가장 적절한 것은?</div>
+<div class="quiz-passage">This psychology allows human populations to accumulate pools of adaptive information that greatly <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> the inventive capacities of individuals.</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p11g',2,this,false)"><span class="opt-num">①</span>reflect</div>
+<div class="quiz-opt" onclick="checkQ('p11g',2,this,false)"><span class="opt-num">②</span>support</div>
+<div class="quiz-opt" onclick="checkQ('p11g',2,this,false)"><span class="opt-num">③</span>limit</div>
+<div class="quiz-opt" onclick="checkQ('p11g',2,this,true)"><span class="opt-num">④</span>exceed</div>
+<div class="quiz-opt" onclick="checkQ('p11g',2,this,false)"><span class="opt-num">⑤</span>replace</div>
+</div>
+<div class="quiz-feedback" id="p11g-q2-fb">✅ 정답 ④ exceed | 집단이 축적한 정보가 개인 능력을 '능가한다'는 문맥. exceed = 초과하다, 능가하다.</div>
+<button class="reset-btn" onclick="resetQ('p11g',2,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">3번 · 어법 오류</div>
+<div class="quiz-q">3. 다음 밑줄 친 부분 중 어법상 <b>틀린</b> 것은?</div>
+<div class="quiz-passage">We are not nearly smart enough as individuals ①<u>to solve</u> the adaptive problems that confronted modern humans as they spread across the globe. The package of tools, foraging techniques, ecological knowledge, and social arrangements used by any group of foragers ②<u>being</u> far too complex for any individual to create. We are able to learn all the things we need to know in each of the many different environments ③<u>in which</u> we live only because we acquire information from others. We are much better at learning from others than other species are, and we are ④<u>motivated</u> to learn from others even when we do not understand why our models are doing ⑤<u>what</u> they are doing.</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p11g',3,this,false)"><span class="opt-num">①</span>to solve</div>
+<div class="quiz-opt" onclick="checkQ('p11g',3,this,true)"><span class="opt-num">②</span>being → is</div>
+<div class="quiz-opt" onclick="checkQ('p11g',3,this,false)"><span class="opt-num">③</span>in which</div>
+<div class="quiz-opt" onclick="checkQ('p11g',3,this,false)"><span class="opt-num">④</span>motivated</div>
+<div class="quiz-opt" onclick="checkQ('p11g',3,this,false)"><span class="opt-num">⑤</span>what</div>
+</div>
+<div class="quiz-feedback" id="p11g-q3-fb">✅ 정답 ② | 주어 'The package'에 대한 서술어 동사가 필요하므로 분사 being이 아닌 동사 is가 와야 한다.</div>
+<button class="reset-btn" onclick="resetQ('p11g',3,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">4번 · 내용 불일치</div>
+<div class="quiz-q">4. 글의 내용과 일치하지 않는 것은?</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p11g',4,this,false)"><span class="opt-num">①</span>인간은 다양한 환경에 적응할 수 있는 뛰어난 지능을 가지고 있다.</div>
+<div class="quiz-opt" onclick="checkQ('p11g',4,this,false)"><span class="opt-num">②</span>수렵·채집 집단의 도구와 기술 체계는 개인이 창조하기에 너무 복잡하다.</div>
+<div class="quiz-opt" onclick="checkQ('p11g',4,this,true)"><span class="opt-num">③</span>인간은 모델의 행동 이유를 이해할 때만 그들에게서 배우려 한다.</div>
+<div class="quiz-opt" onclick="checkQ('p11g',4,this,false)"><span class="opt-num">④</span>인간은 다른 종들보다 타인에게서 배우는 능력이 훨씬 뛰어나다.</div>
+<div class="quiz-opt" onclick="checkQ('p11g',4,this,false)"><span class="opt-num">⑤</span>사회적 학습 심리는 집단이 개인 능력을 초월하는 정보를 축적하게 한다.</div>
+</div>
+<div class="quiz-feedback" id="p11g-q4-fb">✅ 정답 ③ | 지문에서 "even when we do not understand why our models are doing what they are doing"이라 했다. 이유를 몰라도 학습한다.</div>
+<button class="reset-btn" onclick="resetQ('p11g',4,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">5번 · 글의 순서</div>
+<div class="quiz-q">5. 주어진 글 다음에 이어질 글의 순서로 가장 적절한 것은?</div>
+<div class="quiz-passage">We are exceptionally smart, and this helps us adapt to a wide range of environments. But we are not nearly smart enough as individuals to solve the adaptive problems that confronted modern humans as they spread across the globe.</div>
+<div class="order-box">
+<b>(A)</b> We are much better at learning from others than other species are, and we are motivated to learn from others even when we do not understand why our models are doing what they are doing.<br><br>
+<b>(B)</b> The package of tools, foraging techniques, ecological knowledge, and social arrangements used by any group of foragers is far too complex for any individual to create.<br><br>
+<b>(C)</b> We are able to learn all the things we need to know in each of the many different environments in which we live only because we acquire information from others.
+</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p11g',5,this,false)"><span class="opt-num">①</span>(A)-(B)-(C)</div>
+<div class="quiz-opt" onclick="checkQ('p11g',5,this,false)"><span class="opt-num">②</span>(A)-(C)-(B)</div>
+<div class="quiz-opt" onclick="checkQ('p11g',5,this,false)"><span class="opt-num">③</span>(B)-(A)-(C)</div>
+<div class="quiz-opt" onclick="checkQ('p11g',5,this,true)"><span class="opt-num">④</span>(B)-(C)-(A)</div>
+<div class="quiz-opt" onclick="checkQ('p11g',5,this,false)"><span class="opt-num">⑤</span>(C)-(B)-(A)</div>
+</div>
+<div class="quiz-feedback" id="p11g-q5-fb">✅ 정답 ④ (B)-(C)-(A) | 개인의 한계(B) → 타인 정보 습득으로 학습(C) → 이해 없이도 학습하는 동기(A) → 결론(집단 지식 축적) 순이 자연스럽다.</div>
+<button class="reset-btn" onclick="resetQ('p11g',5,event)">↺ 다시 풀기</button>
+</div>
+
+</div><!-- /quiz -->
+</div><!-- /p11g -->
+<!-- ===== 11-1 ===== -->
+<div class="passage-panel" id="p111">
+<div class="passage-header"><div class="p-label">Passage 11-1</div><h1>메타포로 가르치는 리서치</h1></div>
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="showTab('p111','full',this)">① 전문</button>
+  <button class="tab-btn" onclick="showTab('p111','sent',this)">② 문장분석</button>
+  <button class="tab-btn" onclick="showTab('p111','vocab',this)">③ 핵심단어</button>
+  <button class="tab-btn" onclick="showTab('p111','trans',this)">④ 전문해석</button>
+  <button class="tab-btn" onclick="showTab('p111','topic',this)">⑤ 주제·요지</button>
+  <button class="tab-btn" onclick="showTab('p111','quiz',this)">⑥ 변형문제</button>
+</div>
+
+<div class="tab-content active" id="p111-full">
+<div class="full-text-box">Here's an application of metaphors to research papers: Below-grade-level readers in my urban middle school have a great deal of difficulty doing research. Their answer when assigned to do "a report" is to come to the media center and copy verbatim everything in the encyclopedia article or whatever source they have located, be it Internet, print, or whatever. To try to get the students to understand why it isn't necessary to copy everything in the articles, I use a comparison to a supermarket. I ask them if everything in the supermarket is useful, and we discuss this, with the usual conclusion being that it does, but we don't buy everything all the time. Then I ask them why they don't buy everything each time they go and how they determine what to buy when they go with their parents. Someone usually mentions that they have a list. From that point on, I lead a discussion about how whatever their teachers have asked for is their "shopping list" for their research, and they should just read for that information and write it down in note format. It sometimes helps them to understand that copying everything is a wasteful endeavor.</div>
+</div>
+
+<div class="tab-content" id="p111-sent">
+<div class="sec-title">문장분석</div>
+
+<div class="sentence-block">
+<div class="sentence-num">① 문장</div>
+<div class="sentence-en">Here's an application of metaphors to research papers: Below-grade-level readers in my urban middle school have a great deal of difficulty doing research.</div>
+<div class="sentence-kr">/ Here's an application of metaphors / to research papers: / Below-grade-level readers / in my urban middle school / have a great deal of difficulty / doing research. /<br>이것은 메타포를 적용한 사례입니다 / 리서치 페이퍼에 대한: / 학년 수준 이하의 독자들은 / 제 도심 중학교의 / 매우 큰 어려움을 겪습니다 / 리서치를 하는 데.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">have difficulty -ing</span> <span class="g-ex">have a great deal of difficulty doing research</span> <span class="g-point">→ 관용 표현. have difficulty/trouble/a hard time + 동명사.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">② 문장</div>
+<div class="sentence-en">Their answer when assigned to do "a report" is to come to the media center and copy verbatim everything in the encyclopedia article or whatever source they have located, be it Internet, print, or whatever.</div>
+<div class="sentence-kr">/ Their answer / when assigned to do "a report" / is to come to the media center / and copy verbatim everything / in the encyclopedia article / or whatever source they have located, / be it Internet, print, or whatever. /<br>그들의 대답은 / "보고서"를 하도록 지정받았을 때 / 미디어 센터에 와서 / 모든 것을 그대로 베끼는 것입니다 / 백과사전 기사에서 / 또는 그들이 찾은 어떤 자료에서든, / 그것이 인터넷이든, 인쇄물이든, 무엇이든.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">수동 분사구문</span> <span class="g-ex">when assigned to do "a report"</span> <span class="g-point">→ ① 밑줄 정답. when (they are) assigned. 접속사+수동 분사구문.</span></div>
+<div class="grammar-item"><span class="g-name">be it A or B</span> <span class="g-ex">be it Internet, print, or whatever</span> <span class="g-point">→ 양보 표현. '그것이 A이든 B이든'. if it be의 도치 구문.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">③ 문장</div>
+<div class="sentence-en">To try to get the students to understand why it isn't necessary to copy everything in the articles, I use a comparison to a supermarket.</div>
+<div class="sentence-kr">/ To try to get the students / to understand / why it isn't necessary / to copy everything in the articles, / I use a comparison to a supermarket. /<br>학생들이 / 이해하도록 시도하기 위해 / 왜 필요하지 않은지를 / 기사의 모든 것을 베끼는 것이, / 저는 슈퍼마켓에 비유합니다.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">get+O+to부정사</span> <span class="g-ex">get the students to understand</span> <span class="g-point">→ ② 밑줄 정답. 사역 표현. get+목적어+to부정사. make/have와 달리 to 필요.</span></div>
+<div class="grammar-item"><span class="g-name">가주어 it</span> <span class="g-ex">why it isn't necessary to copy</span> <span class="g-point">→ it은 가주어, to copy everything이 진주어.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">④ 문장</div>
+<div class="sentence-en">I ask them if everything in the supermarket is useful, and we discuss this, with the usual conclusion being that it does, but we don't buy everything all the time.</div>
+<div class="sentence-kr">/ I ask them / if everything in the supermarket is useful, / and we discuss this, / with the usual conclusion being / that it does, / but we don't buy everything all the time. /<br>저는 그들에게 묻습니다 / 슈퍼마켓의 모든 것이 유용한지를, / 그리고 우리는 이것을 토론합니다, / 보통 결론이 ~인 상태로 / 그렇다, / 하지만 우리는 항상 모든 것을 사지는 않는다.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">어법오류: does → is</span> <span class="g-ex">with the usual conclusion being that it does</span> <span class="g-point">→ ③ 밑줄 오류. 앞 질문 "is everything useful?"의 대답이므로 대동사는 does가 아닌 is여야 한다.</span></div>
+<div class="grammar-item"><span class="g-name">with+명사+분사</span> <span class="g-ex">with the usual conclusion being</span> <span class="g-point">→ 부대상황 구문. with + 명사 + 현재분사/과거분사/형용사.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑤ 문장</div>
+<div class="sentence-en">Then I ask them why they don't buy everything each time they go and how they determine what to buy when they go with their parents.</div>
+<div class="sentence-kr">/ Then I ask them / why they don't buy everything / each time they go / and how they determine / what to buy / when they go with their parents. /<br>그런 다음 저는 그들에게 묻습니다 / 왜 매번 모든 것을 사지 않는지 / 그들이 갈 때마다 / 그리고 어떻게 결정하는지 / 무엇을 살지를 / 그들이 부모님과 함께 갈 때.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">간접의문문 병렬</span> <span class="g-ex">why they don't buy ... and how they determine</span> <span class="g-point">→ ask 뒤 간접의문문 두 개 병렬. 의문사+주어+동사 어순.</span></div>
+<div class="grammar-item"><span class="g-name">의문사+to부정사</span> <span class="g-ex">what to buy</span> <span class="g-point">→ what to buy = what they should buy. 명사구로 목적어 역할.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑥ 문장</div>
+<div class="sentence-en">Someone usually mentions that they have a list.</div>
+<div class="sentence-kr">/ Someone usually mentions / that they have a list. /<br>누군가 보통 언급합니다 / 그들이 목록을 가지고 있다고.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">that절 목적어</span> <span class="g-ex">mentions that they have a list</span> <span class="g-point">→ mention 뒤 that절이 목적어. 빈도부사 usually는 일반동사 앞에 위치.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑦ 문장</div>
+<div class="sentence-en">From that point on, I lead a discussion about how whatever their teachers have asked for is their "shopping list" for their research, and they should just read for that information and write it down in note format.</div>
+<div class="sentence-kr">/ From that point on, / I lead a discussion / about how / whatever their teachers have asked for / is their "shopping list" / for their research, / and they should just read for that information / and write it down in note format. /<br>그 시점부터, / 저는 토론을 이끕니다 / ~에 관한 / 선생님들이 요청한 것이 무엇이든 / 그들의 "쇼핑 목록"이라는 것 / 리서치를 위한, / 그리고 그 정보를 찾아 읽고 / 노트 형식으로 적어두어야 한다고.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">복합관계대명사 whatever</span> <span class="g-ex">whatever their teachers have asked for</span> <span class="g-point">→ ④ 밑줄 정답. whatever = anything that. 절의 주어 역할.</span></div>
+<div class="grammar-item"><span class="g-name">write down</span> <span class="g-ex">write it down in note format</span> <span class="g-point">→ 구동사. 대명사 목적어는 반드시 write와 down 사이에 위치.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑧ 문장</div>
+<div class="sentence-en">It sometimes helps them to understand that copying everything is a wasteful endeavor.</div>
+<div class="sentence-kr">/ It sometimes helps them / to understand / that copying everything / is a wasteful endeavor. /<br>이것은 때때로 그들이 / 이해하도록 돕습니다 / 모든 것을 베끼는 것이 / 낭비적인 행위임을.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">동명사 주어</span> <span class="g-ex">that copying everything is a wasteful endeavor</span> <span class="g-point">→ ⑤ 밑줄 정답. that절 내에서 동명사구 copying everything이 주어. 단수 취급.</span></div>
+</div>
+</div>
+</div><!-- /sent -->
+
+<div class="tab-content" id="p111-vocab">
+<div class="sec-title">핵심단어 및 표현</div>
+<div class="vocab-grid">
+<div class="vocab-item"><span class="v-word">verbatim</span><span>그대로, 축자적으로</span><span class="v-pos">adv./adj.</span><span class="v-deriv">—</span></div>
+<div class="vocab-item"><span class="v-word">encyclopedia</span><span>백과사전</span><span class="v-pos">n.</span><span class="v-deriv">encyclopedic (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">locate</span><span>찾아내다, 위치시키다</span><span class="v-pos">v.</span><span class="v-deriv">location (n.)</span></div>
+<div class="vocab-item"><span class="v-word">comparison</span><span>비교, 비유</span><span class="v-pos">n.</span><span class="v-deriv">compare (v.), comparable (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">conclusion</span><span>결론</span><span class="v-pos">n.</span><span class="v-deriv">conclude (v.), conclusive (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">determine</span><span>결정하다, 파악하다</span><span class="v-pos">v.</span><span class="v-deriv">determination (n.)</span></div>
+<div class="vocab-item"><span class="v-word">mention</span><span>언급하다</span><span class="v-pos">v.</span><span class="v-deriv">—</span></div>
+<div class="vocab-item"><span class="v-word">format</span><span>형식, 형태</span><span class="v-pos">n.</span><span class="v-deriv">—</span></div>
+<div class="vocab-item"><span class="v-word">wasteful</span><span>낭비적인</span><span class="v-pos">adj.</span><span class="v-deriv">waste (n./v.), wastefully (adv.)</span></div>
+<div class="vocab-item"><span class="v-word">endeavor</span><span>행위, 노력, 시도</span><span class="v-pos">n.</span><span class="v-deriv">—</span></div>
+<div class="vocab-item"><span class="v-word">metaphor</span><span>은유, 비유</span><span class="v-pos">n.</span><span class="v-deriv">metaphorical (adj.)</span></div>
+</div>
+</div>
+
+<div class="tab-content" id="p111-trans">
+<div class="sec-title">전문해석</div>
+<div class="translation-box">이것은 메타포를 리서치 페이퍼에 적용한 사례입니다. 제 도심 중학교의 학년 수준 이하 독자들은 리서치를 하는 데 매우 큰 어려움을 겪습니다. "보고서"를 하도록 지정받았을 때 그들의 대답은 미디어 센터에 와서 백과사전 기사나 인터넷, 인쇄물 등 그들이 찾은 어떤 자료에서든 모든 것을 그대로 베끼는 것입니다. 기사의 모든 것을 베낄 필요가 없다는 것을 학생들이 이해하도록 하기 위해, 저는 슈퍼마켓에 비유합니다. 슈퍼마켓의 모든 것이 유용한지를 물어보고 토론하는데, 보통 그렇긴 하지만 항상 모든 것을 사지는 않는다는 결론에 이릅니다. 그런 다음 왜 매번 모든 것을 사지 않는지, 부모님과 갈 때 무엇을 살지를 어떻게 결정하는지 묻습니다. 누군가 보통 목록이 있다고 말합니다. 그 시점부터 선생님들이 요청한 것이 무엇이든 그것이 리서치를 위한 "쇼핑 목록"이며, 그 정보를 찾아 읽고 노트 형식으로 적어두어야 한다는 토론을 이끕니다. 이것은 때때로 학생들이 모든 것을 베끼는 것이 낭비적인 행위임을 이해하는 데 도움이 됩니다.</div>
+</div>
+
+<div class="tab-content" id="p111-topic">
+<div class="sec-title">주제 · 요지 · 구조</div>
+<div class="topic-card"><div class="topic-label">주제 (Topic)</div><div class="topic-text">슈퍼마켓 메타포를 활용한 선택적 리서치 방법 지도</div></div>
+<div class="topic-card"><div class="topic-label">요지 (Main Point)</div><div class="topic-text">교사가 리서치를 슈퍼마켓 쇼핑에 비유하여 학생들이 자료를 무조건 베끼는 대신, 교사의 요구사항을 쇼핑 목록으로 삼아 필요한 정보만 선별하여 기록하는 방법을 이해하도록 지도한다.</div></div>
+<div class="topic-card"><div class="topic-label">구조 흐름 (Structure)</div>
+<div class="structure-steps">
+<div class="step"><span class="step-badge">도입</span><span>학생들의 문제: 리서치 시 자료를 통째로 베끼는 행동</span></div>
+<div class="step"><span class="step-badge">전개①</span><span>슈퍼마켓 비유 도입 → "모든 것을 다 사지는 않는다" 토론</span></div>
+<div class="step"><span class="step-badge">전개②</span><span>쇼핑 목록 = 교사의 요구사항 → 선별적 정보 수집 안내</span></div>
+<div class="step"><span class="step-badge">결론</span><span>무조건 베끼기는 낭비임을 이해하게 함</span></div>
+</div>
+</div>
+</div>
+
+<div class="tab-content" id="p111-quiz">
+<div class="sec-title">변형문제</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">1번 · 주제 추론</div>
+<div class="quiz-q">1. 다음 글의 주제로 가장 적절한 것은?</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p111',1,this,false)"><span class="opt-num">①</span>중학생의 읽기 능력 향상 방법</div>
+<div class="quiz-opt" onclick="checkQ('p111',1,this,false)"><span class="opt-num">②</span>백과사전 활용의 중요성</div>
+<div class="quiz-opt" onclick="checkQ('p111',1,this,true)"><span class="opt-num">③</span>슈퍼마켓 비유를 활용한 선택적 리서치 지도</div>
+<div class="quiz-opt" onclick="checkQ('p111',1,this,false)"><span class="opt-num">④</span>인터넷 자료의 신뢰성 평가 방법</div>
+<div class="quiz-opt" onclick="checkQ('p111',1,this,false)"><span class="opt-num">⑤</span>노트 필기 형식의 다양화</div>
+</div>
+<div class="quiz-feedback" id="p111-q1-fb">✅ 정답 ③ | 교사가 슈퍼마켓 비유를 통해 학생들이 자료를 선별적으로 리서치하는 방법을 이해하도록 지도하는 내용이 핵심이다.</div>
+<button class="reset-btn" onclick="resetQ('p111',1,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">2번 · 빈칸 추론</div>
+<div class="quiz-q">2. 다음 빈칸에 들어갈 말로 가장 적절한 것은?</div>
+<div class="quiz-passage">From that point on, I lead a discussion about how whatever their teachers have asked for is their "<span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>" for their research.</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p111',2,this,false)"><span class="opt-num">①</span>encyclopedia</div>
+<div class="quiz-opt" onclick="checkQ('p111',2,this,false)"><span class="opt-num">②</span>research topic</div>
+<div class="quiz-opt" onclick="checkQ('p111',2,this,true)"><span class="opt-num">③</span>shopping list</div>
+<div class="quiz-opt" onclick="checkQ('p111',2,this,false)"><span class="opt-num">④</span>note format</div>
+<div class="quiz-opt" onclick="checkQ('p111',2,this,false)"><span class="opt-num">⑤</span>media center</div>
+</div>
+<div class="quiz-feedback" id="p111-q2-fb">✅ 정답 ③ shopping list | 슈퍼마켓 비유에서 교사의 요구사항 = 쇼핑 목록. 필요한 것만 고르는 기준이다.</div>
+<button class="reset-btn" onclick="resetQ('p111',2,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">3번 · 어법 오류</div>
+<div class="quiz-q">3. 다음 밑줄 친 부분 중 어법상 <b>틀린</b> 것은?</div>
+<div class="quiz-passage">Their answer when ①<u>assigned</u> to do "a report" is to come to the media center and copy verbatim everything. To try to get the students ②<u>to understand</u> why it isn't necessary to copy everything in the articles, I use a comparison to a supermarket. I ask them if everything in the supermarket is useful, and we discuss this, with the usual conclusion being that it ③<u>does</u>, but we don't buy everything all the time. From that point on, I lead a discussion about how ④<u>whatever</u> their teachers have asked for is their "shopping list" for their research, and they should just read for that information and ⑤<u>write</u> it down in note format.</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p111',3,this,false)"><span class="opt-num">①</span>assigned</div>
+<div class="quiz-opt" onclick="checkQ('p111',3,this,false)"><span class="opt-num">②</span>to understand</div>
+<div class="quiz-opt" onclick="checkQ('p111',3,this,true)"><span class="opt-num">③</span>does → is</div>
+<div class="quiz-opt" onclick="checkQ('p111',3,this,false)"><span class="opt-num">④</span>whatever</div>
+<div class="quiz-opt" onclick="checkQ('p111',3,this,false)"><span class="opt-num">⑤</span>write</div>
+</div>
+<div class="quiz-feedback" id="p111-q3-fb">✅ 정답 ③ | "Is everything useful?"에 대한 대답이므로 대동사는 does가 아닌 is여야 한다. (everything is useful → it is)</div>
+<button class="reset-btn" onclick="resetQ('p111',3,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">4번 · 내용 불일치</div>
+<div class="quiz-q">4. 글의 내용과 일치하지 않는 것은?</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p111',4,this,false)"><span class="opt-num">①</span>학생들은 보고서 과제를 받으면 자료를 통째로 베끼는 경향이 있다.</div>
+<div class="quiz-opt" onclick="checkQ('p111',4,this,false)"><span class="opt-num">②</span>교사는 슈퍼마켓을 리서치에 비유하여 지도한다.</div>
+<div class="quiz-opt" onclick="checkQ('p111',4,this,true)"><span class="opt-num">③</span>학생들은 슈퍼마켓의 모든 물건이 불필요하다는 결론을 내린다.</div>
+<div class="quiz-opt" onclick="checkQ('p111',4,this,false)"><span class="opt-num">④</span>교사의 요구사항은 리서치의 "쇼핑 목록"에 비유된다.</div>
+<div class="quiz-opt" onclick="checkQ('p111',4,this,false)"><span class="opt-num">⑤</span>교사는 학생들에게 필요한 정보만 노트 형식으로 적도록 안내한다.</div>
+</div>
+<div class="quiz-feedback" id="p111-q4-fb">✅ 정답 ③ | 지문에서 "the usual conclusion being that it is (useful)"이라 했다. 모든 것이 불필요한 것이 아니라 유용하다는 결론이다.</div>
+<button class="reset-btn" onclick="resetQ('p111',4,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">5번 · 글의 순서</div>
+<div class="quiz-q">5. 주어진 글 다음에 이어질 글의 순서로 가장 적절한 것은?</div>
+<div class="quiz-passage">Below-grade-level readers in my urban middle school have a great deal of difficulty doing research. Their answer when assigned to do "a report" is to come to the media center and copy verbatim everything in the encyclopedia article.</div>
+<div class="order-box">
+<b>(A)</b> Someone usually mentions that they have a list. From that point on, I lead a discussion about how whatever their teachers have asked for is their "shopping list" for their research.<br><br>
+<b>(B)</b> To try to get the students to understand why it isn't necessary to copy everything in the articles, I use a comparison to a supermarket. I ask them if everything in the supermarket is useful, and we discuss this.<br><br>
+<b>(C)</b> Then I ask them why they don't buy everything each time they go and how they determine what to buy when they go with their parents.
+</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p111',5,this,false)"><span class="opt-num">①</span>(A)-(B)-(C)</div>
+<div class="quiz-opt" onclick="checkQ('p111',5,this,false)"><span class="opt-num">②</span>(A)-(C)-(B)</div>
+<div class="quiz-opt" onclick="checkQ('p111',5,this,false)"><span class="opt-num">③</span>(B)-(A)-(C)</div>
+<div class="quiz-opt" onclick="checkQ('p111',5,this,true)"><span class="opt-num">④</span>(B)-(C)-(A)</div>
+<div class="quiz-opt" onclick="checkQ('p111',5,this,false)"><span class="opt-num">⑤</span>(C)-(A)-(B)</div>
+</div>
+<div class="quiz-feedback" id="p111-q5-fb">✅ 정답 ④ (B)-(C)-(A) | 슈퍼마켓 비유 도입(B) → 쇼핑 결정 방법 질문(C) → 목록 언급 및 쇼핑목록=리서치목록 결론(A).</div>
+<button class="reset-btn" onclick="resetQ('p111',5,event)">↺ 다시 풀기</button>
+</div>
+
+</div><!-- /quiz -->
+</div><!-- /p111 -->
+<!-- ===== 11-2 ===== -->
+<div class="passage-panel" id="p112">
+<div class="passage-header"><div class="p-label">Passage 11-2</div><h1>시장 논리와 사회적 가치</h1></div>
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="showTab('p112','full',this)">① 전문</button>
+  <button class="tab-btn" onclick="showTab('p112','sent',this)">② 문장분석</button>
+  <button class="tab-btn" onclick="showTab('p112','vocab',this)">③ 핵심단어</button>
+  <button class="tab-btn" onclick="showTab('p112','trans',this)">④ 전문해석</button>
+  <button class="tab-btn" onclick="showTab('p112','topic',this)">⑤ 주제·요지</button>
+  <button class="tab-btn" onclick="showTab('p112','quiz',this)">⑥ 변형문제</button>
+</div>
+
+<div class="tab-content active" id="p112-full">
+<div class="full-text-box">Reformist approaches assume that markets could operate in more equitable and environmentally reasonable ways, and that a market is the most efficient option available. Yet the logic of market efficiencies generally rotates on purely monetary calculations, effectively reasoning in a hall of mirrors and marginalising real social and environmental values. Familiar examples are conventional food retailers, such as supermarkets, which purchase fruit and vegetables as cheaply as possible. Inexpensive produce might be grown using soil- and water-damaging fertilisers, by poorly paid illegal migrant workers, and transported long distances using more cheap labour and environmentally damaging practices. However, organic farmers can only follow ecologically sound practices and make sure they pay their workers fair wages if the food costs more, meaning supply for an elite demand. By its very nature, one never manages to escape the conundrums that production for trade entails. Real social and environmental values involved in caring for people and Earth highlighting the inequities and damage of market-oriented activities.</div>
+</div>
+
+<div class="tab-content" id="p112-sent">
+<div class="sec-title">문장분석</div>
+
+<div class="sentence-block">
+<div class="sentence-num">① 문장</div>
+<div class="sentence-en">Reformist approaches assume that markets could operate in more equitable and environmentally reasonable ways, and that a market is the most efficient option available.</div>
+<div class="sentence-kr">/ Reformist approaches assume / that markets could operate / in more equitable and environmentally reasonable ways, / and that a market is / the most efficient option available. /<br>개혁주의적 접근법들은 가정합니다 / 시장이 작동할 수 있다고 / 더 공평하고 환경적으로 합리적인 방식으로, / 그리고 시장이 / 이용 가능한 가장 효율적인 선택지라고.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">that절 병렬</span> <span class="g-ex">assume that ... and that ...</span> <span class="g-point">→ assume 뒤 두 개의 that절을 and로 병렬 연결. 두 번째 that 생략 불가.</span></div>
+<div class="grammar-item"><span class="g-name">후치 형용사</span> <span class="g-ex">the most efficient option available</span> <span class="g-point">→ available이 option을 후치 수식. -able/-ible 형용사의 후위 수식.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">② 문장</div>
+<div class="sentence-en">Yet the logic of market efficiencies generally rotates on purely monetary calculations, effectively reasoning in a hall of mirrors and marginalising real social and environmental values.</div>
+<div class="sentence-kr">/ Yet the logic of market efficiencies / generally rotates / on purely monetary calculations, / effectively reasoning in a hall of mirrors / and marginalising / real social and environmental values. /<br>그러나 시장 효율성의 논리는 / 일반적으로 돌아갑니다 / 순전히 금전적 계산에 근거하여, / 사실상 왜곡된 시각 속에서 추론하며 / 그리고 주변화시킵니다 / 진정한 사회적, 환경적 가치들을.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">어법오류: rotates → revolves</span> <span class="g-ex">rotates on purely monetary calculations</span> <span class="g-point">→ ① 밑줄 오류. rotate는 '(물체가) 회전하다'. '~에 근거하여 돌아가다'는 revolve around가 올바른 표현.</span></div>
+<div class="grammar-item"><span class="g-name">분사구문 병렬</span> <span class="g-ex">reasoning ... and marginalising</span> <span class="g-point">→ 동시동작의 현재분사 두 개 병렬. 주절 주어 the logic과 연결.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">③ 문장</div>
+<div class="sentence-en">Familiar examples are conventional food retailers, such as supermarkets, which purchase fruit and vegetables as cheaply as possible.</div>
+<div class="sentence-kr">/ Familiar examples are / conventional food retailers, / such as supermarkets, / which purchase fruit and vegetables / as cheaply as possible. /<br>친숙한 예들은 / 일반적인 식품 소매업체들입니다, / 슈퍼마켓과 같은, / 과일과 채소를 구매하는 / 가능한 한 저렴하게.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">계속적 관계대명사 which</span> <span class="g-ex">supermarkets, which purchase</span> <span class="g-point">→ 계속적 용법. 선행사 conventional food retailers를 보충 설명.</span></div>
+<div class="grammar-item"><span class="g-name">as ~ as possible</span> <span class="g-ex">as cheaply as possible</span> <span class="g-point">→ ② 밑줄 정답. as+원급+as possible = 가능한 한 ~하게.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">④ 문장</div>
+<div class="sentence-en">Inexpensive produce might be grown using soil- and water-damaging fertilisers, by poorly paid illegal migrant workers, and transported long distances using more cheap labour and environmentally damaging practices.</div>
+<div class="sentence-kr">/ Inexpensive produce might be grown / using soil- and water-damaging fertilisers, / by poorly paid illegal migrant workers, / and transported long distances / using more cheap labour / and environmentally damaging practices. /<br>저렴한 농산물은 재배될 수 있습니다 / 토양과 물을 해치는 비료를 사용하여, / 임금이 낮은 불법 이주 노동자들에 의해, / 그리고 장거리로 운반됩니다 / 더 저렴한 노동력을 사용하여 / 그리고 환경을 해치는 관행으로.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">수동태 병렬</span> <span class="g-ex">might be grown ... and transported</span> <span class="g-point">→ ③ 밑줄 정답. might be grown and (might be) transported. 수동태 병렬.</span></div>
+<div class="grammar-item"><span class="g-name">현재분사 수식</span> <span class="g-ex">using soil- and water-damaging fertilisers</span> <span class="g-point">→ 방법/수단의 분사구문.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑤ 문장</div>
+<div class="sentence-en">However, organic farmers can only follow ecologically sound practices and make sure they pay their workers fair wages if the food costs more, meaning supply for an elite demand.</div>
+<div class="sentence-kr">/ However, / organic farmers can only follow / ecologically sound practices / and make sure they pay their workers fair wages / if the food costs more, / meaning supply for an elite demand. /<br>그러나, / 유기농 농부들은 오직 따를 수 있습니다 / 생태적으로 건전한 관행을 / 그리고 노동자들에게 공정한 임금을 지불할 수 있습니다 / 음식 값이 더 비쌀 경우에만, / 이는 소수 엘리트 수요를 위한 공급을 의미합니다.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">only if 조건</span> <span class="g-ex">can only ... if the food costs more</span> <span class="g-point">→ '오직 ~한 경우에만 …할 수 있다'. 제한 조건 강조.</span></div>
+<div class="grammar-item"><span class="g-name">결과 분사구문</span> <span class="g-ex">meaning supply for an elite demand</span> <span class="g-point">→ = which means supply for an elite demand. 결과를 나타냄.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑥ 문장</div>
+<div class="sentence-en">By its very nature, one never manages to escape the conundrums that production for trade entails.</div>
+<div class="sentence-kr">/ By its very nature, / one never manages / to escape the conundrums / that production for trade entails. /<br>그것의 본질적인 특성상, / 사람은 결코 피할 수 없습니다 / 딜레마들을 / 교역을 위한 생산이 수반하는.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">관계대명사 that(목적격)</span> <span class="g-ex">the conundrums that production for trade entails</span> <span class="g-point">→ ④ 밑줄 정답. 목적격 관계대명사. entails의 목적어 자리가 비어 있음.</span></div>
+<div class="grammar-item"><span class="g-name">manage to</span> <span class="g-ex">never manages to escape</span> <span class="g-point">→ manage to = (겨우) ~해내다. 부정문에서 '결코 ~하지 못하다'.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑦ 문장</div>
+<div class="sentence-en">Real social and environmental values involved in caring for people and Earth highlighting the inequities and damage of market-oriented activities.</div>
+<div class="sentence-kr">/ Real social and environmental values / involved in caring for people and Earth / highlighting the inequities and damage / of market-oriented activities. /<br>진정한 사회적, 환경적 가치들은 / 사람과 지구를 돌보는 것과 관련된 / 불평등과 피해를 드러냅니다 / 시장 지향적 활동들의.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">어법오류: highlighting → highlight</span> <span class="g-ex">Real social and environmental values ... highlighting</span> <span class="g-point">→ ⑤ 밑줄 오류. 주어 Real social and environmental values에 대한 서술어 동사가 필요. highlighting(분사)이 아닌 highlight(동사)가 와야 함.</span></div>
+<div class="grammar-item"><span class="g-name">과거분사 후치수식</span> <span class="g-ex">values involved in caring</span> <span class="g-point">→ involved가 values를 수동 의미로 후치 수식.</span></div>
+</div>
+</div>
+</div><!-- /sent -->
+
+<div class="tab-content" id="p112-vocab">
+<div class="sec-title">핵심단어 및 표현</div>
+<div class="vocab-grid">
+<div class="vocab-item"><span class="v-word">reformist</span><span>개혁주의적인</span><span class="v-pos">adj.</span><span class="v-deriv">reform (n./v.)</span></div>
+<div class="vocab-item"><span class="v-word">equitable</span><span>공평한, 공정한</span><span class="v-pos">adj.</span><span class="v-deriv">equity (n.), equitably (adv.)</span></div>
+<div class="vocab-item"><span class="v-word">monetary</span><span>금전적인, 화폐의</span><span class="v-pos">adj.</span><span class="v-deriv">money (n.)</span></div>
+<div class="vocab-item"><span class="v-word">marginalise</span><span>주변화하다, 경시하다</span><span class="v-pos">v.</span><span class="v-deriv">marginal (adj.), margin (n.)</span></div>
+<div class="vocab-item"><span class="v-word">fertiliser</span><span>비료</span><span class="v-pos">n.</span><span class="v-deriv">fertilize (v.), fertile (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">migrant</span><span>이주자</span><span class="v-pos">n./adj.</span><span class="v-deriv">migrate (v.), migration (n.)</span></div>
+<div class="vocab-item"><span class="v-word">ecologically</span><span>생태적으로</span><span class="v-pos">adv.</span><span class="v-deriv">ecology (n.), ecological (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">conundrum</span><span>난제, 딜레마</span><span class="v-pos">n.</span><span class="v-deriv">—</span></div>
+<div class="vocab-item"><span class="v-word">entail</span><span>수반하다</span><span class="v-pos">v.</span><span class="v-deriv">—</span></div>
+<div class="vocab-item"><span class="v-word">inequity</span><span>불평등, 불공정</span><span class="v-pos">n.</span><span class="v-deriv">inequitable (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">market-oriented</span><span>시장 지향적인</span><span class="v-pos">adj.</span><span class="v-deriv">orient (v.), orientation (n.)</span></div>
+</div>
+</div>
+
+<div class="tab-content" id="p112-trans">
+<div class="sec-title">전문해석</div>
+<div class="translation-box">개혁주의적 접근법들은 시장이 더 공평하고 환경적으로 합리적인 방식으로 작동할 수 있으며, 시장이 이용 가능한 가장 효율적인 선택지라고 가정합니다. 그러나 시장 효율성의 논리는 일반적으로 순전히 금전적 계산에 근거하여 돌아가며, 사실상 왜곡된 시각 속에서 추론하고 진정한 사회적, 환경적 가치들을 주변화시킵니다. 친숙한 예들은 과일과 채소를 가능한 한 저렴하게 구매하는 슈퍼마켓 같은 일반적인 식품 소매업체들입니다. 저렴한 농산물은 토양과 물을 해치는 비료를 사용하고, 임금이 낮은 불법 이주 노동자들에 의해 재배되며, 더 저렴한 노동력과 환경을 해치는 관행으로 장거리 운반될 수 있습니다. 그러나 유기농 농부들은 음식 값이 더 비쌀 경우에만 생태적으로 건전한 관행을 따르고 노동자들에게 공정한 임금을 지불할 수 있으며, 이는 소수 엘리트 수요를 위한 공급을 의미합니다. 본질적으로, 교역을 위한 생산이 수반하는 딜레마에서 결코 벗어날 수 없습니다. 사람과 지구를 돌보는 것과 관련된 진정한 사회적, 환경적 가치들은 시장 지향적 활동들의 불평등과 피해를 드러냅니다.</div>
+</div>
+
+<div class="tab-content" id="p112-topic">
+<div class="sec-title">주제 · 요지 · 구조</div>
+<div class="topic-card"><div class="topic-label">주제 (Topic)</div><div class="topic-text">시장 논리의 금전적 편향이 사회적·환경적 가치를 주변화하는 문제</div></div>
+<div class="topic-card"><div class="topic-label">요지 (Main Point)</div><div class="topic-text">시장 효율성의 논리는 금전적 계산에만 치우쳐 진정한 사회적·환경적 가치를 주변화하며, 이 구조적 딜레마는 본질적으로 피할 수 없다.</div></div>
+<div class="topic-card"><div class="topic-label">구조 흐름 (Structure)</div>
+<div class="structure-steps">
+<div class="step"><span class="step-badge">도입</span><span>개혁주의적 시장관 제시 → 그러나 시장 논리의 한계 지적</span></div>
+<div class="step"><span class="step-badge">전개①</span><span>슈퍼마켓 사례: 저가 농산물의 사회적·환경적 비용</span></div>
+<div class="step"><span class="step-badge">전개②</span><span>유기농 딜레마: 윤리적 생산 = 고가 → 소수만 접근 가능</span></div>
+<div class="step"><span class="step-badge">결론</span><span>시장 지향 활동의 불평등과 피해는 구조적으로 불가피함</span></div>
+</div>
+</div>
+</div>
+
+<div class="tab-content" id="p112-quiz">
+<div class="sec-title">변형문제</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">1번 · 주제 추론</div>
+<div class="quiz-q">1. 다음 글의 주제로 가장 적절한 것은?</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p112',1,this,false)"><span class="opt-num">①</span>유기농 식품의 경제적 가치</div>
+<div class="quiz-opt" onclick="checkQ('p112',1,this,false)"><span class="opt-num">②</span>시장 개혁을 위한 구체적 방안</div>
+<div class="quiz-opt" onclick="checkQ('p112',1,this,true)"><span class="opt-num">③</span>금전적 시장 논리가 사회·환경적 가치를 주변화하는 문제</div>
+<div class="quiz-opt" onclick="checkQ('p112',1,this,false)"><span class="opt-num">④</span>이주 노동자 처우 개선의 필요성</div>
+<div class="quiz-opt" onclick="checkQ('p112',1,this,false)"><span class="opt-num">⑤</span>소비자의 친환경 소비 습관 형성</div>
+</div>
+<div class="quiz-feedback" id="p112-q1-fb">✅ 정답 ③ | 시장 효율성의 논리가 금전적 계산에만 치우쳐 사회적·환경적 가치를 경시하며, 이 딜레마는 본질적으로 피할 수 없다는 것이 핵심이다.</div>
+<button class="reset-btn" onclick="resetQ('p112',1,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">2번 · 빈칸 추론</div>
+<div class="quiz-q">2. 다음 빈칸에 들어갈 말로 가장 적절한 것은?</div>
+<div class="quiz-passage">By its very nature, one never manages to escape the <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> that production for trade entails.</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p112',2,this,false)"><span class="opt-num">①</span>benefits</div>
+<div class="quiz-opt" onclick="checkQ('p112',2,this,false)"><span class="opt-num">②</span>regulations</div>
+<div class="quiz-opt" onclick="checkQ('p112',2,this,true)"><span class="opt-num">③</span>conundrums</div>
+<div class="quiz-opt" onclick="checkQ('p112',2,this,false)"><span class="opt-num">④</span>efficiencies</div>
+<div class="quiz-opt" onclick="checkQ('p112',2,this,false)"><span class="opt-num">⑤</span>opportunities</div>
+</div>
+<div class="quiz-feedback" id="p112-q2-fb">✅ 정답 ③ conundrums | 시장 논리 속 사회적·환경적 딜레마를 결코 피할 수 없다는 문맥. conundrum = 난제, 딜레마.</div>
+<button class="reset-btn" onclick="resetQ('p112',2,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">3번 · 어법 오류</div>
+<div class="quiz-q">3. 다음 밑줄 친 부분 중 어법상 <b>틀린</b> 것은?</div>
+<div class="quiz-passage">The logic of market efficiencies generally ①<u>rotates</u> on purely monetary calculations, effectively reasoning in a hall of mirrors and marginalising real social and environmental values. Familiar examples are conventional food retailers, such as supermarkets, which purchase fruit and vegetables ②<u>as cheaply as possible</u>. Inexpensive produce might be grown using soil- and water-damaging fertilisers, by poorly paid illegal migrant workers, and ③<u>transported</u> long distances. By its very nature, one never manages to escape the conundrums ④<u>that</u> production for trade entails. Real social and environmental values involved in caring for people and Earth ⑤<u>highlighting</u> the inequities and damage of market-oriented activities.</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p112',3,this,true)"><span class="opt-num">①</span>rotates → revolves</div>
+<div class="quiz-opt" onclick="checkQ('p112',3,this,false)"><span class="opt-num">②</span>as cheaply as possible</div>
+<div class="quiz-opt" onclick="checkQ('p112',3,this,false)"><span class="opt-num">③</span>transported</div>
+<div class="quiz-opt" onclick="checkQ('p112',3,this,false)"><span class="opt-num">④</span>that</div>
+<div class="quiz-opt" onclick="checkQ('p112',3,this,false)"><span class="opt-num">⑤</span>highlighting</div>
+</div>
+<div class="quiz-feedback" id="p112-q3-fb">✅ 정답 ① | rotate는 '(물체가) 회전하다'로 on과 함께 쓰이지 않는다. '~에 근거하여 돌아가다'는 revolve around가 적절하다.</div>
+<button class="reset-btn" onclick="resetQ('p112',3,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">4번 · 내용 불일치</div>
+<div class="quiz-q">4. 글의 내용과 일치하지 않는 것은?</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p112',4,this,false)"><span class="opt-num">①</span>개혁주의적 접근법은 시장이 공평한 방식으로 작동할 수 있다고 본다.</div>
+<div class="quiz-opt" onclick="checkQ('p112',4,this,false)"><span class="opt-num">②</span>슈퍼마켓 같은 소매업체들은 가능한 한 저렴하게 농산물을 구매한다.</div>
+<div class="quiz-opt" onclick="checkQ('p112',4,this,false)"><span class="opt-num">③</span>저렴한 농산물 생산에는 환경을 해치는 관행이 포함될 수 있다.</div>
+<div class="quiz-opt" onclick="checkQ('p112',4,this,true)"><span class="opt-num">④</span>유기농 농부들은 식품 가격을 낮추면서도 공정한 임금을 지불할 수 있다.</div>
+<div class="quiz-opt" onclick="checkQ('p112',4,this,false)"><span class="opt-num">⑤</span>교역을 위한 생산이 수반하는 딜레마는 본질적으로 피하기 어렵다.</div>
+</div>
+<div class="quiz-feedback" id="p112-q4-fb">✅ 정답 ④ | 지문에서 "organic farmers can only ... if the food costs more". 식품 가격이 더 비싸야만 윤리적 생산과 공정 임금이 가능하다.</div>
+<button class="reset-btn" onclick="resetQ('p112',4,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">5번 · 글의 순서</div>
+<div class="quiz-q">5. 주어진 글 다음에 이어질 글의 순서로 가장 적절한 것은?</div>
+<div class="quiz-passage">Reformist approaches assume that markets could operate in more equitable and environmentally reasonable ways, and that a market is the most efficient option available.</div>
+<div class="order-box">
+<b>(A)</b> However, organic farmers can only follow ecologically sound practices and make sure they pay their workers fair wages if the food costs more, meaning supply for an elite demand. By its very nature, one never manages to escape the conundrums that production for trade entails.<br><br>
+<b>(B)</b> Yet the logic of market efficiencies generally revolves around purely monetary calculations, effectively reasoning in a hall of mirrors and marginalising real social and environmental values.<br><br>
+<b>(C)</b> Familiar examples are conventional food retailers, such as supermarkets, which purchase fruit and vegetables as cheaply as possible. Inexpensive produce might be grown using soil- and water-damaging fertilisers, by poorly paid illegal migrant workers, and transported long distances.
+</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p112',5,this,false)"><span class="opt-num">①</span>(A)-(B)-(C)</div>
+<div class="quiz-opt" onclick="checkQ('p112',5,this,false)"><span class="opt-num">②</span>(A)-(C)-(B)</div>
+<div class="quiz-opt" onclick="checkQ('p112',5,this,false)"><span class="opt-num">③</span>(B)-(A)-(C)</div>
+<div class="quiz-opt" onclick="checkQ('p112',5,this,true)"><span class="opt-num">④</span>(B)-(C)-(A)</div>
+<div class="quiz-opt" onclick="checkQ('p112',5,this,false)"><span class="opt-num">⑤</span>(C)-(A)-(B)</div>
+</div>
+<div class="quiz-feedback" id="p112-q5-fb">✅ 정답 ④ (B)-(C)-(A) | 시장 논리의 한계 제시(B) → 슈퍼마켓 구체 사례(C) → 유기농 딜레마 및 결론(A).</div>
+<button class="reset-btn" onclick="resetQ('p112',5,event)">↺ 다시 풀기</button>
+</div>
+
+</div><!-- /quiz -->
+</div><!-- /p112 -->
+<!-- ===== 11-3 ===== -->
+<div class="passage-panel" id="p113">
+<div class="passage-header"><div class="p-label">Passage 11-3</div><h1>인종의 사회적 구성</h1></div>
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="showTab('p113','full',this)">① 전문</button>
+  <button class="tab-btn" onclick="showTab('p113','sent',this)">② 문장분석</button>
+  <button class="tab-btn" onclick="showTab('p113','vocab',this)">③ 핵심단어</button>
+  <button class="tab-btn" onclick="showTab('p113','trans',this)">④ 전문해석</button>
+  <button class="tab-btn" onclick="showTab('p113','topic',this)">⑤ 주제·요지</button>
+  <button class="tab-btn" onclick="showTab('p113','quiz',this)">⑥ 변형문제</button>
+</div>
+
+<div class="tab-content active" id="p113-full">
+<div class="full-text-box">There is no scientific basis for the term "race". Most humans are genetically very similar and there is so little variation amongst us that it is not possible to draw neat boundaries around people and label them as a distinct racial group. Race is an example of social construction, which social processes create something that essentially does not exist but takes on real force in people's lives. Sociologists prefer to call these processes "racialization". Historical evidence that race has always been an issue is hard to find. For example, in ancient Rome there were various leading figures, such as Emperor Septimius Severus (ruled C.E. 193–211), who were black. Little is said of their skin colour in accounts written at the time, because the ancient Romans did not think it made any difference. They thought more in terms of judging people as being civilized or a barbarian.</div>
+</div>
+
+<div class="tab-content" id="p113-sent">
+<div class="sec-title">문장분석</div>
+
+<div class="sentence-block">
+<div class="sentence-num">① 문장</div>
+<div class="sentence-en">There is no scientific basis for the term "race".</div>
+<div class="sentence-kr">/ There is no scientific basis / for the term "race". /<br>"인종"이라는 용어에 대한 / 과학적 근거가 없습니다.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">There is/are 존재 구문</span> <span class="g-ex">There is no scientific basis</span> <span class="g-point">→ 주어는 no scientific basis(단수). 핵심 주장을 첫 문장에서 제시.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">② 문장</div>
+<div class="sentence-en">Most humans are genetically very similar and there is so little variation amongst us that it is not possible to draw neat boundaries around people and label them as a distinct racial group.</div>
+<div class="sentence-kr">/ Most humans are genetically very similar / and there is so little variation amongst us / that it is not possible / to draw neat boundaries around people / and label them as a distinct racial group. /<br>대부분의 인간은 유전적으로 매우 유사하고 / 우리 사이에 변이가 너무 적어서 / 가능하지 않습니다 / 사람들 주변에 명확한 경계를 긋고 / 그들을 뚜렷한 인종 집단으로 분류하는 것이.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">so ~ that 결과절</span> <span class="g-ex">so little variation ... that it is not possible</span> <span class="g-point">→ so+형용사/부사+that절 = '너무 ~해서 …하다'. 결과 부사절.</span></div>
+<div class="grammar-item"><span class="g-name">to부정사 병렬</span> <span class="g-ex">to draw ... and label</span> <span class="g-point">→ ① 밑줄 정답. to draw and (to) label. 병렬 구조.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">③ 문장</div>
+<div class="sentence-en">Race is an example of social construction, which social processes create something that essentially does not exist but takes on real force in people's lives.</div>
+<div class="sentence-kr">/ Race is an example / of social construction, / which social processes create something / that essentially does not exist / but takes on real force / in people's lives. /<br>인종은 사례입니다 / 사회적 구성의, / 사회적 과정이 무언가를 만들어내는 / 본질적으로 존재하지 않지만 / 실제 힘을 갖는 / 사람들의 삶에서.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">어법오류: which → where</span> <span class="g-ex">social construction, which social processes create something</span> <span class="g-point">→ ② 밑줄 오류. which 뒤에 완전한 절이 오므로 관계부사 where(=in which)가 필요. 목적어 없는 절에만 목적격 관계대명사 which 사용.</span></div>
+<div class="grammar-item"><span class="g-name">관계대명사 that(주격)</span> <span class="g-ex">something that essentially does not exist</span> <span class="g-point">→ 주격 관계대명사 that. 선행사 something 수식.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">④ 문장</div>
+<div class="sentence-en">Sociologists prefer to call these processes "racialization".</div>
+<div class="sentence-kr">/ Sociologists prefer / to call these processes / "racialization". /<br>사회학자들은 선호합니다 / 이러한 과정들을 부르기를 / "인종화"라고.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">prefer to부정사</span> <span class="g-ex">prefer to call</span> <span class="g-point">→ prefer는 to부정사를 목적어로 취함. prefer -ing도 가능.</span></div>
+<div class="grammar-item"><span class="g-name">call A B (5형식)</span> <span class="g-ex">call these processes "racialization"</span> <span class="g-point">→ call + 목적어 + 목적보어(명사).</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑤ 문장</div>
+<div class="sentence-en">Historical evidence that race has always been an issue is hard to find.</div>
+<div class="sentence-kr">/ Historical evidence / that race has always been an issue / is hard to find. /<br>역사적 증거는 / 인종이 항상 문제가 되어왔다는 / 찾기 어렵습니다.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">동격 that절</span> <span class="g-ex">evidence that race has always been an issue</span> <span class="g-point">→ ③ 밑줄 정답. 명사 evidence와 동격인 that절. that 뒤에 완전한 절.</span></div>
+<div class="grammar-item"><span class="g-name">be hard to부정사</span> <span class="g-ex">is hard to find</span> <span class="g-point">→ 의미상 목적어가 주어. to find의 목적어 = evidence.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑥ 문장</div>
+<div class="sentence-en">For example, in ancient Rome there were various leading figures, such as Emperor Septimius Severus (ruled C.E. 193–211), who were black.</div>
+<div class="sentence-kr">/ For example, / in ancient Rome / there were various leading figures, / such as Emperor Septimius Severus / (ruled C.E. 193–211), / who were black. /<br>예를 들어, / 고대 로마에는 / 다양한 주요 인물들이 있었습니다, / 황제 Septimius Severus와 같이 / (서기 193–211년 통치), / 흑인이었던.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">계속적 관계대명사 who</span> <span class="g-ex">leading figures ... who were black</span> <span class="g-point">→ ④ 밑줄 정답. 선행사 leading figures(복수) → who were.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑦ 문장</div>
+<div class="sentence-en">Little is said of their skin colour in accounts written at the time, because the ancient Romans did not think it made any difference.</div>
+<div class="sentence-kr">/ Little is said / of their skin colour / in accounts written at the time, / because the ancient Romans / did not think / it made any difference. /<br>거의 언급되지 않습니다 / 그들의 피부색에 대해 / 당시에 쓰인 기록들에서, / 왜냐하면 고대 로마인들은 / 생각하지 않았기 때문에 / 그것이 어떤 차이를 만든다고.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">부정어 도치</span> <span class="g-ex">Little is said of their skin colour</span> <span class="g-point">→ 부정어 Little이 문두로 이동 → 주어·동사 도치. 강조 표현.</span></div>
+<div class="grammar-item"><span class="g-name">과거분사 후치수식</span> <span class="g-ex">accounts written at the time</span> <span class="g-point">→ ⑤ 밑줄 정답. 과거분사구가 accounts를 수동 의미로 후치 수식.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑧ 문장</div>
+<div class="sentence-en">They thought more in terms of judging people as being civilized or a barbarian.</div>
+<div class="sentence-kr">/ They thought more / in terms of / judging people / as being civilized or a barbarian. /<br>그들은 더 많이 생각했습니다 / ~의 관점에서 / 사람들을 판단하는 것의 / 문명화되었는지 또는 야만인인지로서.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">in terms of</span> <span class="g-ex">in terms of judging people</span> <span class="g-point">→ '~의 관점에서, ~에 관하여'. in terms of + 명사/동명사.</span></div>
+<div class="grammar-item"><span class="g-name">judge A as B</span> <span class="g-ex">judging people as being civilized</span> <span class="g-point">→ '~로서 A를 판단하다'. as being 뒤에 형용사/명사.</span></div>
+</div>
+</div>
+</div><!-- /sent -->
+
+<div class="tab-content" id="p113-vocab">
+<div class="sec-title">핵심단어 및 표현</div>
+<div class="vocab-grid">
+<div class="vocab-item"><span class="v-word">scientific basis</span><span>과학적 근거</span><span class="v-pos">n. phr.</span><span class="v-deriv">science (n.), scientific (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">genetically</span><span>유전적으로</span><span class="v-pos">adv.</span><span class="v-deriv">gene (n.), genetic (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">variation</span><span>변이, 차이</span><span class="v-pos">n.</span><span class="v-deriv">vary (v.), variable (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">distinct</span><span>뚜렷한, 별개의</span><span class="v-pos">adj.</span><span class="v-deriv">distinction (n.), distinctive (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">social construction</span><span>사회적 구성</span><span class="v-pos">n. phr.</span><span class="v-deriv">construct (v.), construction (n.)</span></div>
+<div class="vocab-item"><span class="v-word">racialization</span><span>인종화</span><span class="v-pos">n.</span><span class="v-deriv">race (n.), racial (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">evidence</span><span>증거</span><span class="v-pos">n.</span><span class="v-deriv">evident (adj.), evidently (adv.)</span></div>
+<div class="vocab-item"><span class="v-word">account</span><span>기록, 설명</span><span class="v-pos">n.</span><span class="v-deriv">accountable (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">civilized</span><span>문명화된</span><span class="v-pos">adj.</span><span class="v-deriv">civilize (v.), civilization (n.)</span></div>
+<div class="vocab-item"><span class="v-word">barbarian</span><span>야만인</span><span class="v-pos">n.</span><span class="v-deriv">barbaric (adj.)</span></div>
+</div>
+</div>
+
+<div class="tab-content" id="p113-trans">
+<div class="sec-title">전문해석</div>
+<div class="translation-box">"인종"이라는 용어에는 과학적 근거가 없습니다. 대부분의 인간은 유전적으로 매우 유사하며, 우리 사이에 변이가 너무 적어서 사람들 주변에 명확한 경계를 그어 뚜렷한 인종 집단으로 분류하는 것이 가능하지 않습니다. 인종은 사회적 구성의 사례로, 사회적 과정이 본질적으로는 존재하지 않지만 사람들의 삶에서 실제 힘을 갖는 무언가를 만들어내는 것입니다. 사회학자들은 이러한 과정들을 "인종화"라고 부르기를 선호합니다. 인종이 항상 문제가 되어왔다는 역사적 증거는 찾기 어렵습니다. 예를 들어, 고대 로마에는 서기 193–211년에 통치한 황제 Septimius Severus와 같이 흑인이었던 다양한 주요 인물들이 있었습니다. 당시에 쓰인 기록들에서는 그들의 피부색에 대해 거의 언급되지 않는데, 이는 고대 로마인들이 그것이 어떤 차이를 만든다고 생각하지 않았기 때문입니다. 그들은 사람들을 문명화되었는지 또는 야만인인지의 관점에서 판단하는 것을 더 중요하게 여겼습니다.</div>
+</div>
+
+<div class="tab-content" id="p113-topic">
+<div class="sec-title">주제 · 요지 · 구조</div>
+<div class="topic-card"><div class="topic-label">주제 (Topic)</div><div class="topic-text">인종 개념의 과학적 무근거성과 사회적 구성의 역사적 증거</div></div>
+<div class="topic-card"><div class="topic-label">요지 (Main Point)</div><div class="topic-text">"인종"은 과학적 근거가 없는 사회적 구성 개념이며, 고대 로마의 사례는 인종이 항상 사회적 문제가 된 것은 아님을 보여준다.</div></div>
+<div class="topic-card"><div class="topic-label">구조 흐름 (Structure)</div>
+<div class="structure-steps">
+<div class="step"><span class="step-badge">도입</span><span>인종 개념의 과학적 무근거성 주장</span></div>
+<div class="step"><span class="step-badge">전개①</span><span>인종은 사회적 구성 개념 → 사회학적 용어 '인종화' 소개</span></div>
+<div class="step"><span class="step-badge">전개②</span><span>고대 로마의 사례: 흑인 황제 존재, 피부색이 문제되지 않음</span></div>
+<div class="step"><span class="step-badge">결론</span><span>고대 로마는 문명화 여부로만 사람을 판단했음</span></div>
+</div>
+</div>
+</div>
+
+<div class="tab-content" id="p113-quiz">
+<div class="sec-title">변형문제</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">1번 · 주제 추론</div>
+<div class="quiz-q">1. 다음 글의 주제로 가장 적절한 것은?</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p113',1,this,false)"><span class="opt-num">①</span>고대 로마의 인종 차별 역사</div>
+<div class="quiz-opt" onclick="checkQ('p113',1,this,false)"><span class="opt-num">②</span>인류의 유전적 다양성 연구</div>
+<div class="quiz-opt" onclick="checkQ('p113',1,this,true)"><span class="opt-num">③</span>인종 개념의 과학적 무근거성과 사회적 구성의 역사적 증거</div>
+<div class="quiz-opt" onclick="checkQ('p113',1,this,false)"><span class="opt-num">④</span>현대 사회의 인종 차별 문제 해결 방안</div>
+<div class="quiz-opt" onclick="checkQ('p113',1,this,false)"><span class="opt-num">⑤</span>사회학의 인종 연구 방법론 소개</div>
+</div>
+<div class="quiz-feedback" id="p113-q1-fb">✅ 정답 ③ | 인종은 과학적 근거 없이 사회적으로 구성된 개념이며, 고대 로마 사례를 통해 인종이 항상 이슈가 된 것은 아님을 논증한다.</div>
+<button class="reset-btn" onclick="resetQ('p113',1,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">2번 · 빈칸 추론</div>
+<div class="quiz-q">2. 다음 빈칸에 들어갈 말로 가장 적절한 것은?</div>
+<div class="quiz-passage">Race is an example of social construction, where social processes create something that essentially does not exist but <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> in people's lives.</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p113',2,this,false)"><span class="opt-num">①</span>loses its meaning</div>
+<div class="quiz-opt" onclick="checkQ('p113',2,this,false)"><span class="opt-num">②</span>creates scientific evidence</div>
+<div class="quiz-opt" onclick="checkQ('p113',2,this,true)"><span class="opt-num">③</span>takes on real force</div>
+<div class="quiz-opt" onclick="checkQ('p113',2,this,false)"><span class="opt-num">④</span>disappears over time</div>
+<div class="quiz-opt" onclick="checkQ('p113',2,this,false)"><span class="opt-num">⑤</span>reflects genetic variation</div>
+</div>
+<div class="quiz-feedback" id="p113-q2-fb">✅ 정답 ③ takes on real force | 인종은 본질적으로 존재하지 않지만 사람들의 삶에서 '실제 힘을 갖게 된다'는 문맥이다.</div>
+<button class="reset-btn" onclick="resetQ('p113',2,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">3번 · 어법 오류</div>
+<div class="quiz-q">3. 다음 밑줄 친 부분 중 어법상 <b>틀린</b> 것은?</div>
+<div class="quiz-passage">There is so little variation amongst us that it is not possible to draw neat boundaries around people and ①<u>label</u> them as a distinct racial group. Race is an example of social construction, ②<u>which</u> social processes create something that essentially does not exist but takes on real force in people's lives. Historical evidence ③<u>that</u> race has always been an issue is hard to find. In ancient Rome there were various leading figures, such as Emperor Septimius Severus, ④<u>who</u> were black. Little is said of their skin colour in accounts ⑤<u>written</u> at the time.</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p113',3,this,false)"><span class="opt-num">①</span>label</div>
+<div class="quiz-opt" onclick="checkQ('p113',3,this,true)"><span class="opt-num">②</span>which → where</div>
+<div class="quiz-opt" onclick="checkQ('p113',3,this,false)"><span class="opt-num">③</span>that</div>
+<div class="quiz-opt" onclick="checkQ('p113',3,this,false)"><span class="opt-num">④</span>who</div>
+<div class="quiz-opt" onclick="checkQ('p113',3,this,false)"><span class="opt-num">⑤</span>written</div>
+</div>
+<div class="quiz-feedback" id="p113-q3-fb">✅ 정답 ② | which 뒤에 "social processes create something"이라는 완전한 절이 오므로 관계대명사 which가 아닌 관계부사 where(=in which)가 와야 한다.</div>
+<button class="reset-btn" onclick="resetQ('p113',3,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">4번 · 내용 불일치</div>
+<div class="quiz-q">4. 글의 내용과 일치하지 않는 것은?</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p113',4,this,false)"><span class="opt-num">①</span>"인종"이라는 개념에는 과학적 근거가 없다.</div>
+<div class="quiz-opt" onclick="checkQ('p113',4,this,false)"><span class="opt-num">②</span>인간은 유전적으로 매우 유사하여 인종 경계를 긋기 어렵다.</div>
+<div class="quiz-opt" onclick="checkQ('p113',4,this,false)"><span class="opt-num">③</span>사회학자들은 인종화 과정을 연구한다.</div>
+<div class="quiz-opt" onclick="checkQ('p113',4,this,true)"><span class="opt-num">④</span>고대 로마인들은 피부색을 중요한 사회적 기준으로 여겼다.</div>
+<div class="quiz-opt" onclick="checkQ('p113',4,this,false)"><span class="opt-num">⑤</span>고대 로마에는 흑인 황제가 존재했다.</div>
+</div>
+<div class="quiz-feedback" id="p113-q4-fb">✅ 정답 ④ | "the ancient Romans did not think it made any difference." 피부색은 중요하게 여겨지지 않았다.</div>
+<button class="reset-btn" onclick="resetQ('p113',4,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">5번 · 글의 순서</div>
+<div class="quiz-q">5. 주어진 글 다음에 이어질 글의 순서로 가장 적절한 것은?</div>
+<div class="quiz-passage">There is no scientific basis for the term "race". Most humans are genetically very similar and there is so little variation amongst us that it is not possible to draw neat boundaries around people and label them as a distinct racial group.</div>
+<div class="order-box">
+<b>(A)</b> For example, in ancient Rome there were various leading figures, such as Emperor Septimius Severus (ruled C.E. 193–211), who were black. Little is said of their skin colour in accounts written at the time, because the ancient Romans did not think it made any difference.<br><br>
+<b>(B)</b> Race is an example of social construction, where social processes create something that essentially does not exist but takes on real force in people's lives. Sociologists prefer to call these processes "racialization".<br><br>
+<b>(C)</b> Historical evidence that race has always been an issue is hard to find.
+</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p113',5,this,false)"><span class="opt-num">①</span>(A)-(B)-(C)</div>
+<div class="quiz-opt" onclick="checkQ('p113',5,this,false)"><span class="opt-num">②</span>(A)-(C)-(B)</div>
+<div class="quiz-opt" onclick="checkQ('p113',5,this,false)"><span class="opt-num">③</span>(B)-(A)-(C)</div>
+<div class="quiz-opt" onclick="checkQ('p113',5,this,true)"><span class="opt-num">④</span>(B)-(C)-(A)</div>
+<div class="quiz-opt" onclick="checkQ('p113',5,this,false)"><span class="opt-num">⑤</span>(C)-(A)-(B)</div>
+</div>
+<div class="quiz-feedback" id="p113-q5-fb">✅ 정답 ④ (B)-(C)-(A) | 사회적 구성 개념 설명(B) → 역사적 증거 찾기 어려움 주장(C) → 고대 로마 구체 사례 제시(A).</div>
+<button class="reset-btn" onclick="resetQ('p113',5,event)">↺ 다시 풀기</button>
+</div>
+
+</div><!-- /quiz -->
+</div><!-- /p113 -->
+<!-- ===== 11-4 ===== -->
+<div class="passage-panel" id="p114">
+<div class="passage-header"><div class="p-label">Passage 11-4</div><h1>비만과 음식 섭취량</h1></div>
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="showTab('p114','full',this)">① 전문</button>
+  <button class="tab-btn" onclick="showTab('p114','sent',this)">② 문장분석</button>
+  <button class="tab-btn" onclick="showTab('p114','vocab',this)">③ 핵심단어</button>
+  <button class="tab-btn" onclick="showTab('p114','trans',this)">④ 전문해석</button>
+  <button class="tab-btn" onclick="showTab('p114','topic',this)">⑤ 주제·요지</button>
+  <button class="tab-btn" onclick="showTab('p114','quiz',this)">⑥ 변형문제</button>
+</div>
+
+<div class="tab-content active" id="p114-full">
+<div class="full-text-box">Many factors contribute to Americans' growing waistlines, but one observation in particular cannot be overlooked: The incidence of obesity has increased in parallel with increasing portion sizes. Consider this: Adults today consume an average of 300 more calories per day than they did in the year 1985. Is this just a coincidence, or do larger portion sizes have something to do with it? In almost every eating situation, we are now confronted by huge portions, which are perceived as "normal" or "a great value." Americans have created the perception what large portion sizes are appropriate, creating an environment of portion distortion. We find portion distortions in restaurants, where the jumbo-sized portions are consistently 250 percent larger than the regular portions. We even find portion distortions in our homes, where the sizes of our bowls and glasses have steadily increased and where the surface area of the average dinner plate has increased 36 percent since 1960. Research shows that people unintentionally consume more calories when offered larger portions. Consuming larger portion sizes can contribute to positive energy balance, which, over time, leads to weight gain and ultimately can result in obesity.</div>
+</div>
+
+<div class="tab-content" id="p114-sent">
+<div class="sec-title">문장분석</div>
+
+<div class="sentence-block">
+<div class="sentence-num">① 문장</div>
+<div class="sentence-en">Many factors contribute to Americans' growing waistlines, but one observation in particular cannot be overlooked: The incidence of obesity has increased in parallel with increasing portion sizes.</div>
+<div class="sentence-kr">/ Many factors contribute / to Americans' growing waistlines, / but one observation in particular / cannot be overlooked: / The incidence of obesity / has increased in parallel / with increasing portion sizes. /<br>많은 요인들이 기여합니다 / 미국인들의 증가하는 허리둘레에, / 하지만 특히 하나의 관찰은 / 간과될 수 없습니다: / 비만의 발생률이 / 병행하여 증가했습니다 / 증가하는 음식 섭취량과.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">contribute to</span> <span class="g-ex">contribute to Americans' growing waistlines</span> <span class="g-point">→ contribute to + 명사/동명사. '~에 기여하다/원인이 되다'. to는 전치사.</span></div>
+<div class="grammar-item"><span class="g-name">in parallel with</span> <span class="g-ex">increased in parallel with increasing portion sizes</span> <span class="g-point">→ '~와 나란히, 동시에'. 현재완료 has increased로 과거부터 현재까지 변화 강조.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">② 문장</div>
+<div class="sentence-en">Consider this: Adults today consume an average of 300 more calories per day than they did in the year 1985.</div>
+<div class="sentence-kr">/ Consider this: / Adults today consume / an average of 300 more calories per day / than they did / in the year 1985. /<br>이것을 생각해보세요: / 오늘날 성인들은 섭취합니다 / 하루 평균 300칼로리를 더 / 그들이 했던 것보다 / 1985년에.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">비교급+than+대동사</span> <span class="g-ex">300 more calories than they did</span> <span class="g-point">→ ① 밑줄 정답. 비교 대상 일치: consume → did(대동사). 수치+비교급 구문.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">③ 문장</div>
+<div class="sentence-en">Is this just a coincidence, or do larger portion sizes have something to do with it?</div>
+<div class="sentence-kr">/ Is this just a coincidence, / or do larger portion sizes / have something to do with it? /<br>이것은 단순한 우연일까요, / 아니면 더 큰 음식 양이 / 그것과 관계가 있는 걸까요?</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">have something to do with</span> <span class="g-ex">have something to do with it</span> <span class="g-point">→ ② 밑줄 정답. 관용 표현. '~과 관계가 있다'. have nothing to do with의 반대.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">④ 문장</div>
+<div class="sentence-en">In almost every eating situation, we are now confronted by huge portions, which are perceived as "normal" or "a great value."</div>
+<div class="sentence-kr">/ In almost every eating situation, / we are now confronted / by huge portions, / which are perceived as "normal" / or "a great value." /<br>거의 모든 식사 상황에서, / 우리는 이제 직면합니다 / 엄청난 양의 음식에, / "정상적인" 것이나 / "큰 가치"로 인식되는.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">be confronted by (수동태)</span> <span class="g-ex">are confronted by huge portions</span> <span class="g-point">→ confront는 능동, be confronted by는 수동. '~에 직면하다'.</span></div>
+<div class="grammar-item"><span class="g-name">계속적 관계대명사 which</span> <span class="g-ex">huge portions, which are perceived as</span> <span class="g-point">→ 계속적 용법. 앞 명사 huge portions를 보충 설명.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑤ 문장</div>
+<div class="sentence-en">Americans have created the perception what large portion sizes are appropriate, creating an environment of portion distortion.</div>
+<div class="sentence-kr">/ Americans have created / the perception / what large portion sizes are appropriate, / creating an environment / of portion distortion. /<br>미국인들은 만들어냈습니다 / 인식을 / 큰 음식 양이 적절하다는, / 만들어내며 / 음식 왜곡의 환경을.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">어법오류: what → that</span> <span class="g-ex">the perception what large portion sizes are appropriate</span> <span class="g-point">→ ③ 밑줄 오류. perception과 동격인 명사절을 이끄는 접속사는 that. what은 선행사 없는 관계대명사로 동격절 불가.</span></div>
+<div class="grammar-item"><span class="g-name">결과 분사구문</span> <span class="g-ex">creating an environment of portion distortion</span> <span class="g-point">→ 결과를 나타내는 현재분사 분사구문. = which created an environment.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑥ 문장</div>
+<div class="sentence-en">We find portion distortions in restaurants, where the jumbo-sized portions are consistently 250 percent larger than the regular portions.</div>
+<div class="sentence-kr">/ We find portion distortions in restaurants, / where the jumbo-sized portions / are consistently 250 percent larger / than the regular portions. /<br>우리는 음식 왜곡을 발견합니다 식당에서, / 그곳에서 점보 사이즈 음식은 / 일관되게 250퍼센트 더 큽니다 / 일반 음식보다.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">관계부사 where</span> <span class="g-ex">restaurants, where the jumbo-sized portions</span> <span class="g-point">→ ④ 밑줄 정답. 계속적 관계부사 where = in which.</span></div>
+<div class="grammar-item"><span class="g-name">배수 비교</span> <span class="g-ex">250 percent larger than the regular portions</span> <span class="g-point">→ 배수+비교급+than. '~보다 몇 배 더 크다'.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑦ 문장</div>
+<div class="sentence-en">We even find portion distortions in our homes, where the sizes of our bowls and glasses have steadily increased and where the surface area of the average dinner plate has increased 36 percent since 1960.</div>
+<div class="sentence-kr">/ We even find portion distortions in our homes, / where the sizes of our bowls and glasses / have steadily increased / and where the surface area / of the average dinner plate / has increased 36 percent / since 1960. /<br>우리는 심지어 집에서도 음식 왜곡을 발견합니다, / 그곳에서 그릇과 컵의 크기가 / 꾸준히 증가했고 / 그리고 그곳에서 표면적이 / 평균 저녁 접시의 / 36퍼센트 증가했습니다 / 1960년 이후.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">관계부사 where 병렬</span> <span class="g-ex">where ... increased and where ... has increased</span> <span class="g-point">→ 두 개의 where절을 and로 병렬 연결. 모두 our homes를 선행사로 함.</span></div>
+<div class="grammar-item"><span class="g-name">현재완료+since</span> <span class="g-ex">has increased 36 percent since 1960</span> <span class="g-point">→ since + 과거 시점 → 현재완료. 1960년부터 현재까지의 변화.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑧ 문장</div>
+<div class="sentence-en">Research shows that people unintentionally consume more calories when offered larger portions.</div>
+<div class="sentence-kr">/ Research shows / that people unintentionally consume more calories / when offered larger portions. /<br>연구는 보여줍니다 / 사람들이 의도치 않게 더 많은 칼로리를 섭취한다는 것을 / 더 큰 양의 음식이 제공될 때.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">수동 분사구문</span> <span class="g-ex">when offered larger portions</span> <span class="g-point">→ ⑤ 밑줄 정답. when (they are) offered. 접속사+수동 분사구문.</span></div>
+</div>
+</div>
+
+<div class="sentence-block">
+<div class="sentence-num">⑨ 문장</div>
+<div class="sentence-en">Consuming larger portion sizes can contribute to positive energy balance, which, over time, leads to weight gain and ultimately can result in obesity.</div>
+<div class="sentence-kr">/ Consuming larger portion sizes / can contribute to / positive energy balance, / which, over time, / leads to weight gain / and ultimately can result in obesity. /<br>더 큰 음식 양을 먹는 것은 / 기여할 수 있습니다 / 양의 에너지 균형에, / 그것은 시간이 지남에 따라 / 체중 증가로 이어지고 / 궁극적으로 비만을 초래할 수 있습니다.</div>
+<div class="grammar-items">
+<div class="grammar-item"><span class="g-name">동명사 주어</span> <span class="g-ex">Consuming larger portion sizes can contribute</span> <span class="g-point">→ 동명사구가 주어. 단수 취급 → can contribute.</span></div>
+<div class="grammar-item"><span class="g-name">계속적 관계대명사 which</span> <span class="g-ex">positive energy balance, which leads to weight gain</span> <span class="g-point">→ 계속적 용법 which. 앞 명사를 보충 설명. 삽입어구 over time에 주의.</span></div>
+</div>
+</div>
+</div><!-- /sent -->
+
+<div class="tab-content" id="p114-vocab">
+<div class="sec-title">핵심단어 및 표현</div>
+<div class="vocab-grid">
+<div class="vocab-item"><span class="v-word">waistline</span><span>허리둘레</span><span class="v-pos">n.</span><span class="v-deriv">waist (n.)</span></div>
+<div class="vocab-item"><span class="v-word">incidence</span><span>발생률</span><span class="v-pos">n.</span><span class="v-deriv">incident (n.), incidental (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">obesity</span><span>비만</span><span class="v-pos">n.</span><span class="v-deriv">obese (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">portion</span><span>1인분, 부분</span><span class="v-pos">n.</span><span class="v-deriv">—</span></div>
+<div class="vocab-item"><span class="v-word">coincidence</span><span>우연의 일치</span><span class="v-pos">n.</span><span class="v-deriv">coincide (v.), coincidental (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">perceive</span><span>인식하다</span><span class="v-pos">v.</span><span class="v-deriv">perception (n.), perceptive (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">distortion</span><span>왜곡</span><span class="v-pos">n.</span><span class="v-deriv">distort (v.)</span></div>
+<div class="vocab-item"><span class="v-word">consistently</span><span>일관되게</span><span class="v-pos">adv.</span><span class="v-deriv">consistent (adj.), consistency (n.)</span></div>
+<div class="vocab-item"><span class="v-word">unintentionally</span><span>의도치 않게</span><span class="v-pos">adv.</span><span class="v-deriv">unintentional (adj.), intention (n.)</span></div>
+<div class="vocab-item"><span class="v-word">ultimately</span><span>궁극적으로</span><span class="v-pos">adv.</span><span class="v-deriv">ultimate (adj.)</span></div>
+<div class="vocab-item"><span class="v-word">in parallel with</span><span>~와 나란히, 동시에</span><span class="v-pos">prep. phr.</span><span class="v-deriv">parallel (n./adj.)</span></div>
+</div>
+</div>
+
+<div class="tab-content" id="p114-trans">
+<div class="sec-title">전문해석</div>
+<div class="translation-box">많은 요인들이 미국인들의 증가하는 허리둘레에 기여하지만, 특히 간과할 수 없는 관찰이 하나 있습니다. 비만 발생률이 증가하는 음식 섭취량과 나란히 증가해 왔다는 것입니다. 이것을 생각해보세요. 오늘날 성인들은 1985년보다 하루 평균 300칼로리를 더 섭취합니다. 이것은 단순한 우연일까요, 아니면 더 큰 음식 양과 관계가 있는 걸까요? 거의 모든 식사 상황에서 우리는 이제 "정상적인" 것이나 "큰 가치"로 인식되는 엄청난 양의 음식에 직면합니다. 미국인들은 큰 음식 양이 적절하다는 인식을 만들어내며 음식 왜곡의 환경을 조성했습니다. 우리는 식당에서도 음식 왜곡을 발견하는데, 점보 사이즈 음식은 일반 음식보다 일관되게 250퍼센트나 더 큽니다. 심지어 집에서도 그릇과 컵의 크기가 꾸준히 증가했고, 평균 저녁 접시의 표면적은 1960년 이후 36퍼센트 증가했습니다. 연구에 따르면 사람들은 더 큰 양의 음식이 제공될 때 의도치 않게 더 많은 칼로리를 섭취합니다. 더 큰 음식 양을 먹는 것은 양의 에너지 균형에 기여할 수 있으며, 이는 시간이 지남에 따라 체중 증가로 이어지고 궁극적으로 비만을 초래할 수 있습니다.</div>
+</div>
+
+<div class="tab-content" id="p114-topic">
+<div class="sec-title">주제 · 요지 · 구조</div>
+<div class="topic-card"><div class="topic-label">주제 (Topic)</div><div class="topic-text">증가하는 음식 섭취량(portion size)과 비만 발생률의 상관관계</div></div>
+<div class="topic-card"><div class="topic-label">요지 (Main Point)</div><div class="topic-text">비만 발생률의 증가는 음식 섭취량의 증가와 나란히 진행되어 왔으며, 식당과 가정 모두에서 음식 양이 커진 환경 속에서 사람들은 의도치 않게 더 많은 칼로리를 섭취하게 되어 비만으로 이어진다.</div></div>
+<div class="topic-card"><div class="topic-label">구조 흐름 (Structure)</div>
+<div class="structure-steps">
+<div class="step"><span class="step-badge">도입</span><span>비만 증가와 음식 섭취량 증가의 병행 현상 제시</span></div>
+<div class="step"><span class="step-badge">전개①</span><span>1985년 대비 칼로리 섭취 증가 수치 → 우연인지 문제 제기</span></div>
+<div class="step"><span class="step-badge">전개②</span><span>식당·가정 모두에서 음식 왜곡 현상 구체적 사례 제시</span></div>
+<div class="step"><span class="step-badge">결론</span><span>큰 음식 양 → 칼로리 과잉 섭취 → 체중 증가 → 비만</span></div>
+</div>
+</div>
+</div>
+
+<div class="tab-content" id="p114-quiz">
+<div class="sec-title">변형문제</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">1번 · 주제 추론</div>
+<div class="quiz-q">1. 다음 글의 주제로 가장 적절한 것은?</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p114',1,this,false)"><span class="opt-num">①</span>미국 식품 산업의 마케팅 전략</div>
+<div class="quiz-opt" onclick="checkQ('p114',1,this,false)"><span class="opt-num">②</span>칼로리 섭취 감소를 위한 식이 요법</div>
+<div class="quiz-opt" onclick="checkQ('p114',1,this,true)"><span class="opt-num">③</span>음식 섭취량 증가와 비만 발생률의 상관관계</div>
+<div class="quiz-opt" onclick="checkQ('p114',1,this,false)"><span class="opt-num">④</span>에너지 균형을 위한 운동의 중요성</div>
+<div class="quiz-opt" onclick="checkQ('p114',1,this,false)"><span class="opt-num">⑤</span>식당의 음식 양 규제 필요성</div>
+</div>
+<div class="quiz-feedback" id="p114-q1-fb">✅ 정답 ③ | 비만 증가와 음식 섭취량(portion size) 증가가 나란히 진행되어 왔으며, 큰 섭취량이 비만의 원인이 됨을 논증하는 것이 핵심이다.</div>
+<button class="reset-btn" onclick="resetQ('p114',1,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">2번 · 빈칸 추론</div>
+<div class="quiz-q">2. 다음 빈칸에 들어갈 말로 가장 적절한 것은?</div>
+<div class="quiz-passage">Americans have created the perception that large portion sizes are appropriate, creating an environment of portion <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>.</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p114',2,this,false)"><span class="opt-num">①</span>regulation</div>
+<div class="quiz-opt" onclick="checkQ('p114',2,this,false)"><span class="opt-num">②</span>satisfaction</div>
+<div class="quiz-opt" onclick="checkQ('p114',2,this,true)"><span class="opt-num">③</span>distortion</div>
+<div class="quiz-opt" onclick="checkQ('p114',2,this,false)"><span class="opt-num">④</span>reduction</div>
+<div class="quiz-opt" onclick="checkQ('p114',2,this,false)"><span class="opt-num">⑤</span>innovation</div>
+</div>
+<div class="quiz-feedback" id="p114-q2-fb">✅ 정답 ③ distortion | 큰 음식 양이 적절하다는 왜곡된 인식 = 음식 왜곡(portion distortion) 환경. 지문 전체에서 반복되는 핵심 개념이다.</div>
+<button class="reset-btn" onclick="resetQ('p114',2,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">3번 · 어법 오류</div>
+<div class="quiz-q">3. 다음 밑줄 친 부분 중 어법상 <b>틀린</b> 것은?</div>
+<div class="quiz-passage">Adults today consume an average of 300 more calories per day than they ①<u>did</u> in the year 1985. Do larger portion sizes have something to do with ②<u>it</u>? Americans have created the perception ③<u>what</u> large portion sizes are appropriate, creating an environment of portion distortion. We find portion distortions in restaurants, ④<u>where</u> the jumbo-sized portions are consistently 250 percent larger than the regular portions. Research shows that people unintentionally consume more calories when ⑤<u>offered</u> larger portions.</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p114',3,this,false)"><span class="opt-num">①</span>did</div>
+<div class="quiz-opt" onclick="checkQ('p114',3,this,false)"><span class="opt-num">②</span>it</div>
+<div class="quiz-opt" onclick="checkQ('p114',3,this,true)"><span class="opt-num">③</span>what → that</div>
+<div class="quiz-opt" onclick="checkQ('p114',3,this,false)"><span class="opt-num">④</span>where</div>
+<div class="quiz-opt" onclick="checkQ('p114',3,this,false)"><span class="opt-num">⑤</span>offered</div>
+</div>
+<div class="quiz-feedback" id="p114-q3-fb">✅ 정답 ③ | the perception에 대한 동격절을 이끄는 접속사는 that이어야 한다. what은 선행사를 포함한 관계대명사로 동격절을 이끌 수 없다.</div>
+<button class="reset-btn" onclick="resetQ('p114',3,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">4번 · 내용 불일치</div>
+<div class="quiz-q">4. 글의 내용과 일치하지 않는 것은?</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p114',4,this,false)"><span class="opt-num">①</span>오늘날 성인은 1985년보다 하루 평균 300칼로리를 더 섭취한다.</div>
+<div class="quiz-opt" onclick="checkQ('p114',4,this,false)"><span class="opt-num">②</span>식당의 점보 사이즈 음식은 일반 음식보다 250퍼센트 더 크다.</div>
+<div class="quiz-opt" onclick="checkQ('p114',4,this,true)"><span class="opt-num">③</span>평균 저녁 접시의 표면적은 1985년 이후 36퍼센트 증가했다.</div>
+<div class="quiz-opt" onclick="checkQ('p114',4,this,false)"><span class="opt-num">④</span>사람들은 더 큰 음식 양이 제공될 때 의도치 않게 칼로리를 더 섭취한다.</div>
+<div class="quiz-opt" onclick="checkQ('p114',4,this,false)"><span class="opt-num">⑤</span>큰 음식 양은 양의 에너지 균형을 통해 체중 증가로 이어질 수 있다.</div>
+</div>
+<div class="quiz-feedback" id="p114-q4-fb">✅ 정답 ③ | 지문에서 "since 1960"이라 했다. 1985년이 아닌 1960년 이후 36퍼센트 증가한 것이다.</div>
+<button class="reset-btn" onclick="resetQ('p114',4,event)">↺ 다시 풀기</button>
+</div>
+
+<div class="quiz-block">
+<div class="quiz-type-badge">5번 · 글의 순서</div>
+<div class="quiz-q">5. 주어진 글 다음에 이어질 글의 순서로 가장 적절한 것은?</div>
+<div class="quiz-passage">Many factors contribute to Americans' growing waistlines, but one observation in particular cannot be overlooked: The incidence of obesity has increased in parallel with increasing portion sizes.</div>
+<div class="order-box">
+<b>(A)</b> We find portion distortions in restaurants, where the jumbo-sized portions are consistently 250 percent larger than the regular portions. We even find portion distortions in our homes, where the sizes of our bowls and glasses have steadily increased.<br><br>
+<b>(B)</b> Consider this: Adults today consume an average of 300 more calories per day than they did in the year 1985. Is this just a coincidence, or do larger portion sizes have something to do with it?<br><br>
+<b>(C)</b> In almost every eating situation, we are now confronted by huge portions, which are perceived as "normal" or "a great value." Americans have created the perception that large portion sizes are appropriate, creating an environment of portion distortion.
+</div>
+<div class="quiz-options">
+<div class="quiz-opt" onclick="checkQ('p114',5,this,false)"><span class="opt-num">①</span>(A)-(B)-(C)</div>
+<div class="quiz-opt" onclick="checkQ('p114',5,this,false)"><span class="opt-num">②</span>(A)-(C)-(B)</div>
+<div class="quiz-opt" onclick="checkQ('p114',5,this,false)"><span class="opt-num">③</span>(B)-(A)-(C)</div>
+<div class="quiz-opt" onclick="checkQ('p114',5,this,true)"><span class="opt-num">④</span>(B)-(C)-(A)</div>
+<div class="quiz-opt" onclick="checkQ('p114',5,this,false)"><span class="opt-num">⑤</span>(C)-(A)-(B)</div>
+</div>
+<div class="quiz-feedback" id="p114-q5-fb">✅ 정답 ④ (B)-(C)-(A) | 칼로리 증가 수치와 문제 제기(B) → 음식 왜곡 인식 환경 형성(C) → 식당·가정의 구체 사례(A).</div>
+<button class="reset-btn" onclick="resetQ('p114',5,event)">↺ 다시 풀기</button>
+</div>
+
+</div><!-- /quiz -->
+</div><!-- /p114 -->
+</main>
+</div><!-- /layout -->
+
+<script>
+function showPassage(id, btn) {
+  document.querySelectorAll('.passage-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.passage-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function showTab(passageId, tabId, btn) {
+  var panel = document.getElementById(passageId);
+  panel.querySelectorAll('.tab-content').forEach(function(t){ t.classList.remove('active'); });
+  panel.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById(passageId + '-' + tabId).classList.add('active');
+  btn.classList.add('active');
+}
+
+function checkQ(passageId, qNum, el, isCorrect) {
+  var block = el.closest('.quiz-block');
+  var opts = block.querySelectorAll('.quiz-opt');
+  opts.forEach(function(o){ o.style.pointerEvents = 'none'; });
+  if (isCorrect) {
+    el.classList.add('correct');
+  } else {
+    el.classList.add('wrong');
+    opts.forEach(function(o){
+      var oc = o.getAttribute('onclick') || '';
+      if (oc.indexOf(',true)') !== -1) { o.classList.add('correct'); }
+    });
+  }
+  var fb = document.getElementById(passageId + '-q' + qNum + '-fb');
+  if (fb) fb.classList.add('show');
+}
+
+function resetQ(passageId, qNum, ev) {
+  var block = ev.currentTarget.closest('.quiz-block');
+  block.querySelectorAll('.quiz-opt').forEach(function(o){
+    o.classList.remove('correct','wrong');
+    o.style.pointerEvents = '';
+  });
+  var fb = document.getElementById(passageId + '-q' + qNum + '-fb');
+  if (fb) fb.classList.remove('show');
+}
+</script>
+</body>
+</html>
